@@ -15,6 +15,10 @@
 ## Friday 2018-05-11
 
 
+18:26 - Rendering heightmap texture on terrain
+
+<a href="https://ibb.co/dfHc8y"><img src="https://preview.ibb.co/eDsATy/Screen_Shot_2018_05_11_at_18_25_01.png" alt="Screen_Shot_2018_05_11_at_18_25_01" border="0"></a>
+
 16:29 - Finally some terrain data output
 
 ```shell
