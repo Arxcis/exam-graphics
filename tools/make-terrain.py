@@ -9,6 +9,9 @@ import sys
 import random
 import math
 
+import numpy as np
+
+
 from PIL import Image
 
 
@@ -59,7 +62,7 @@ class Vertex:
 class Triangle:
     __slot__ = ["a", "b", "c", "normal"]
 
-    def __init__(self, a,b,c, normal):
+    def __init__(self, a,b,c, normal=Vec3(0,0,0)):
         self.a = a
         self.b = b
         self.c = c
@@ -85,6 +88,84 @@ def write_vertices(outfile, vertices):
                         vert.color.b,
                         vert.color.a))
 
+
+def make_vertices(vertices, pixelbuffer, width, height):
+    print("width:", width, "height:", height)
+    print("pixelcount:", len(pixelbuffer))
+
+    for z in range(height):
+        for x in range(width):
+
+            y = pixelbuffer[x + z * width]
+
+            vertices.append(
+                Vertex(position=Vec3(x,y,z),
+                       texcoord=Texcoord(x/width, z/height)))
+
+# Example:
+"""
+triangles: 5566
+t: 1 2 3
+t: 2 3 1
+t: 6 5 4
+.......
+"""
+def write_mesh(outfile, triangles):
+    outfile.write("meshes: 1\n")
+    outfile.write("mesh: terrain\n")
+    outfile.write("material: terrain\n")
+    outfile.write("shader: terrain\n")
+    outfile.write("triangles: {}\n".format(len(triangles)))
+    
+    for tri in triangles:
+        outfile.write("t: {} {} {}\n".format(
+            tri.a,
+            tri.b,
+            tri.c
+        ))
+
+
+def make_pixelbuffer(image):
+
+    pixelbuffer = image.getdata()
+    width, height = image.size
+
+    return pixelbuffer, width, height
+
+
+def make_triangles(triangles, width, height):
+
+    for y in range(0, height-1):
+        for x in range(0, width-1):
+
+            # ____
+            # |  /
+            # | /
+            # |/
+            a = (y+1) * width + x + 0
+            b = (y+0) * width + x + 1
+            c = (y+0) * width + x + 0
+
+            triangles.append(Triangle(a,b,c))
+
+            # 
+            #    /|
+            #   / |
+            #  /__|
+            # 
+            a = (y+1) * width + x + 0
+            b = (y+1) * width + x + 1
+            c = (y+0) * width + x + 1
+
+            triangles.append(Triangle(a,b,c))
+
+
+def compute_triangle_normals():
+    return
+
+def compute_vertex_normals():
+    return
+
 if __name__ == "__main__":
     vertices  = []
     indicies  = []
@@ -94,33 +175,21 @@ if __name__ == "__main__":
     in_assets_path = "assets"
 
     try:
-        im = Image.open(in_heightmap_path)
+        image = Image.open(in_heightmap_path)
     except IOError:
         print("cannot convert", infile)
         exit(1)
 
 
+    pixelbuffer, width, height = make_pixelbuffer(image)
+    make_vertices(vertices, pixelbuffer, width, height)
+    make_triangles(triangles, width, height)
 
-    pixelbuffer = im.getdata()
-    width, height = im.size
-    print("width:", width, "height:", height)
-    
-    print(len(pixelbuffer))
-
-    # Iterating all pixels
-    count = 0
-
-    for z in range(height):
-        for x in range(width):
-
-            y = pixelbuffer[x + z * width]
-
-            vertices.append(
-                Vertex(position=Vec3(x,y,z)))
-
+    compute_triangle_normals()
+    compute_vertex_normals()
 
 
     with open(in_assets_path + "/models/terrain.yml", "w") as terrainfile:
 
         write_vertices(terrainfile, vertices)
-
+        write_mesh(terrainfile, triangles)

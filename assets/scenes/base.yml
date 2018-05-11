@@ -1,11 +1,11 @@
 cameras: 1
 
 camera: maincam
-  position: 0 0 -20
-  rotation: 0 0 0
+  position: 0 400 -2000
+  rotation: 0 -90 0
   velocity: 0 0 0
   angleVelocity: 0 0 0
-  mode: orbital
+  mode: freelook
   fov: 90
   nearClip: 0.1
   farClip: 4000
@@ -13,7 +13,7 @@ camera: maincam
 entities: 1
 
 entity: glider
-  model: glider
+  model: terrain
   position: 0 0 0
   rotation: 0 0 0
   scale: 5 5 5
