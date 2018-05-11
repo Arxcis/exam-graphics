@@ -335,9 +335,6 @@ auto ShaderSystem::parseProgram(const std::string& fileString,
     drawProps[ShaderProgram::CullFace] =  { GL_BACK };
 
 
-
-
-
     std::stringstream ss[3];
 
     for (std::size_t lineNr = 1; getline(fileStream, line); lineNr++)

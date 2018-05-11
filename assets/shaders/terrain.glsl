@@ -46,5 +46,5 @@ void main() {
 
     vec3 tex = texture(map_diffuse, tex_coord).rgb;
 
-    out_color = vec4(tex, 1);
+    out_color = vec4(tex, 1) + vec4(.4,.2,.2,0);
 }

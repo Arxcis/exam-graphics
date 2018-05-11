@@ -49,7 +49,7 @@ class Vertex:
     def __init__(self,position,
                       normal  = Vec3(0,0,0),
                       texcoord = Texcoord(0,0),
-                      color    = Color(0,0,0,0) ):
+                      color    = Color(0,0,0,0)):
 
         self.position = position
         self.normal = normal
@@ -67,6 +67,73 @@ class Triangle:
         self.b = b
         self.c = c
         self.normal = normal
+
+
+
+
+
+
+def make_height_vertices(vertices, pixelbuffer, width, height):
+
+    for z in range(height):
+        for x in range(width):
+
+            y = pixelbuffer[x + z * width]
+
+            vertices.append(
+                Vertex(position=Vec3(x=x/float(width), 
+                                     y=y/255.0,
+                                     z=z/float(height)),
+
+                       texcoord=Texcoord(
+                                     u=x/float(width), 
+                                     v=z/float(height))))
+
+
+
+def make_pixelbuffer(image):
+
+    pixelbuffer = image.getdata()
+    width, height = image.size
+
+    return pixelbuffer, width, height
+
+
+def make_grid_triangles(columns, rows, meshoffset=0):
+
+    triangles = []
+    for y in range(rows-1):
+        for x in range(columns-1):
+
+            # ____
+            # |  /
+            # | /
+            # |/
+            a = (y+1) * columns + x + 0 + meshoffset
+            b = (y+0) * columns + x + 1 + meshoffset
+            c = (y+0) * columns + x + 0 + meshoffset
+
+            triangles.append(Triangle(a,b,c))
+
+            # 
+            #    /|
+            #   / |
+            #  /__|
+            # 
+            a = (y+1) * columns + x + 0 + meshoffset
+            b = (y+1) * columns + x + 1 + meshoffset
+            c = (y+0) * columns + x + 1 + meshoffset
+
+            triangles.append(Triangle(a,b,c))
+
+    return triangles
+
+
+def compute_triangle_normals():
+    return
+
+def compute_vertex_normals():
+    return
 
 
 
@@ -88,20 +155,6 @@ def write_vertices(outfile, vertices):
                         vert.color.b,
                         vert.color.a))
 
-
-def make_vertices(vertices, pixelbuffer, width, height):
-    print("width:", width, "height:", height)
-    print("pixelcount:", len(pixelbuffer))
-
-    for z in range(height):
-        for x in range(width):
-
-            y = pixelbuffer[x + z * width]
-
-            vertices.append(
-                Vertex(position=Vec3(x,y,z),
-                       texcoord=Texcoord(x/width, z/height)))
-
 # Example:
 """
 triangles: 5566
@@ -110,11 +163,10 @@ t: 2 3 1
 t: 6 5 4
 .......
 """
-def write_mesh(outfile, triangles):
-    outfile.write("meshes: 1\n")
-    outfile.write("mesh: terrain\n")
-    outfile.write("material: terrain\n")
-    outfile.write("shader: terrain\n")
+def write_mesh(outfile, triangles, name):
+    outfile.write("mesh: {}\n".format(name))
+    outfile.write("material: {}\n".format(name))
+    outfile.write("shader: {}\n".format(name))
     outfile.write("triangles: {}\n".format(len(triangles)))
     
     for tri in triangles:
@@ -125,51 +177,31 @@ def write_mesh(outfile, triangles):
         ))
 
 
-def make_pixelbuffer(image):
-
-    pixelbuffer = image.getdata()
-    width, height = image.size
-
-    return pixelbuffer, width, height
 
 
-def make_triangles(triangles, width, height):
 
-    for y in range(0, height-1):
-        for x in range(0, width-1):
+def make_water_vertices(vertices, columns, rows, startheight, alpha):
 
-            # ____
-            # |  /
-            # | /
-            # |/
-            a = (y+1) * width + x + 0
-            b = (y+0) * width + x + 1
-            c = (y+0) * width + x + 0
+    for z in range(rows):
+        for x in range(columns):
+            vertices.append(
+                Vertex(position=Vec3(x = x/float(columns), 
+                                     y = startheight, 
+                                     z = z/float(rows)),
 
-            triangles.append(Triangle(a,b,c))
+                       texcoord=Texcoord(u = x/float(columns),
+                                         v = z/float(rows)),
 
-            # 
-            #    /|
-            #   / |
-            #  /__|
-            # 
-            a = (y+1) * width + x + 0
-            b = (y+1) * width + x + 1
-            c = (y+0) * width + x + 1
-
-            triangles.append(Triangle(a,b,c))
+                       color=Color(r = 0,
+                                   g = 0,
+                                   b = 255, 
+                                   a = alpha)))
 
 
-def compute_triangle_normals():
-    return
 
-def compute_vertex_normals():
-    return
 
 if __name__ == "__main__":
-    vertices  = []
-    indicies  = []
-    triangles = []
+
 
     in_heightmap_path = "resources/ExamResources/heightmap/height100.png"
     in_assets_path = "assets"
@@ -181,15 +213,41 @@ if __name__ == "__main__":
         exit(1)
 
 
+    vertices  = []
+
+    #
+    # Generate base terrain
+    #
     pixelbuffer, width, height = make_pixelbuffer(image)
-    make_vertices(vertices, pixelbuffer, width, height)
-    make_triangles(triangles, width, height)
+
+    make_height_vertices(vertices, pixelbuffer, width, height)
+    base_triangles = make_grid_triangles(columns=width, rows=height)
 
     compute_triangle_normals()
     compute_vertex_normals()
 
+    #
+    # Generate water
+    # 
+    meshoffset = len(vertices)
+    make_water_vertices(vertices=vertices, 
+                        columns=100, 
+                        rows=100, 
+                        startheight=0.1,
+                        alpha=100)
 
+    water_triangle = make_grid_triangles(columns=100, 
+                                         rows=100, 
+                                         meshoffset=meshoffset)
+
+
+
+    #
+    # Write to file
+    #
     with open(in_assets_path + "/models/terrain.yml", "w") as terrainfile:
 
         write_vertices(terrainfile, vertices)
-        write_mesh(terrainfile, triangles)
+        terrainfile.write("meshes: 2\n")
+        write_mesh(terrainfile, base_triangles, "terrain")
+        write_mesh(terrainfile, water_triangle, "water")

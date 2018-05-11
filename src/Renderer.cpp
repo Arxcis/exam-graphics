@@ -45,12 +45,28 @@ void Renderer::draw(const Model& model, glm::mat4 modelMatrix, float t)
     {
         mesh.m_ebo.bind();
 
+
         auto& shader = mesh.m_shaderProgram;
         shader.bind();
         shader.setMaterial(MaterialSystem::getById(mesh.m_materialID));
         GLCall(glUniform1f(shader.getUniformLocation("time"), t));
         GLCall(glUniformMatrix4fv(shader.getUniformLocation("m2w"), 1, GL_FALSE, glm::value_ptr(modelMatrix)));
+
+        if (shader.m_tag == "water")
+        {
+            GLCall(glDepthMask(GL_FALSE));
+            GLCall(glEnable(GL_BLEND));
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }
+
         GLCall(glDrawElements(GL_TRIANGLES, mesh.m_ebo.count(), GL_UNSIGNED_INT, nullptr));
+
+        if (shader.m_tag == "water")
+        {
+            GLCall(glDepthMask(GL_TRUE));
+            GLCall(glDisable(GL_BLEND));
+        }
+
     }
 }
 

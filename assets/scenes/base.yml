@@ -1,7 +1,7 @@
 cameras: 1
 
 camera: maincam
-  position: 0 400 -2000
+  position: 0 0 0
   rotation: 0 -90 0
   velocity: 0 0 0
   angleVelocity: 0 0 0
@@ -12,11 +12,11 @@ camera: maincam
 
 entities: 1
 
-entity: glider
+entity: terrain
   model: terrain
   position: 0 0 0
   rotation: 0 0 0
-  scale: 5 5 5
+  scale: 50 10 50
   velocity: 0 0 0
   angleVelocity: 0 0 0
 
