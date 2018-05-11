@@ -38,6 +38,12 @@ public:
     static auto makeModel(const C::Tag& tag, const std::string& modelString, Model* outModel) -> C::Err;
     static void push(const std::string& tag, const std::string& filepath);
 
+
+    static void toggleShader(const C::Tag& modelTag, 
+                             const C::Tag& meshTag,
+                             const C::Tag& shader,
+                             const C::Tag& otherShader);
+
 };
 
 }

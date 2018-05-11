@@ -39,6 +39,14 @@ namespace overkill
         else if(keyCode == GLFW_KEY_4) {
             Scene::reload();
         }
+        else if (keyCode == GLFW_KEY_O) {
+
+            ModelSystem::toggleShader("terrain",
+                                      "terrain",
+                                      "terrain",
+                                      "contour");
+
+        }
         // PRESS SPACE to toggle camera mode
         else if(keyCode == GLFW_KEY_SPACE) {
             EntityCamera* cam = (EntityCamera*) Scene::getActiveCamera();

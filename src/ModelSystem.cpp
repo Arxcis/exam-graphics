@@ -7,6 +7,42 @@ namespace overkill
 std::vector<Model> ModelSystem::m_models;
 std::unordered_map<C::Tag, C::ID> ModelSystem::m_mapModelID;
 
+
+
+void ModelSystem::toggleShader(const C::Tag& modelTag, 
+                               const C::Tag& meshTag,
+                               const C::Tag& shader,
+                               const C::Tag& otherShader) 
+{
+ 
+    auto& terrainModelMeshes = ModelSystem::getByTag(modelTag).m_meshes;
+
+    for (auto& mesh: terrainModelMeshes) 
+    {
+        if (mesh.m_tag == meshTag) 
+        {
+            if (mesh.m_shaderProgram.m_tag == shader) {
+                mesh.m_shaderProgram = ShaderSystem::copyByTag(otherShader);
+                
+                mesh.m_shaderProgram.setMaterial(
+                    MaterialSystem::getById(mesh.m_materialID));
+
+                LOG_DEBUG("swapped shader %s -> %s", shader.data(), otherShader.data());
+            } else {
+                
+                mesh.m_shaderProgram = ShaderSystem::copyByTag(shader);
+                mesh.m_shaderProgram.setMaterial(
+                    MaterialSystem::getById(mesh.m_materialID));
+
+                LOG_DEBUG("swapped shader %s -> %s", otherShader.data(), shader.data());
+            }
+            break;
+        }
+    }
+
+
+}
+
 auto ModelSystem::getIdByTag(const C::Tag& tag) -> C::ID
 {
     return m_mapModelID[tag];
