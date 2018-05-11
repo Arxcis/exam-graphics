@@ -33,6 +33,5 @@ void GLEW();
 void OpenGL(const glm::vec4 background);
 
 void Config();
-void loadOBJFiles(bool loadTextures=true, bool loadMaterials=true, bool loadModels=true);
 
 } // ::Init::overkill

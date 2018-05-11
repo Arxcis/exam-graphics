@@ -64,7 +64,6 @@ int main(int argc, char** args)
     MaterialSystem::load();
     ModelSystem::load();
     
-    Init::loadOBJFiles();
 
     
     LOG_DEBUG("Argc %d, args[1] %s", argc, args[1]);

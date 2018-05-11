@@ -4,7 +4,6 @@
 #include <string>
 #include <unordered_map>
 
-#include <tiny_obj_loader/tiny_obj_loader.h>
 
 #include <overkill/Config.hpp>
 #include <overkill/Texture.hpp>
@@ -27,9 +26,6 @@ public:
     // <summary> Load all texture data onto GPU memory. 
     //           Keep model metadata on CPU </summary>
     static void load();
-    static auto loadOBJ(const std::vector<tinyobj::material_t>& materials,
-                        const std::string& objBasedir,
-                        const C::Tag& baseTag) -> C::Err;
     static void clean();
     static auto getIdByTag(const C::Tag& textureTag) -> C::ID;
     static auto getByTag(const C::Tag& textureTag) -> const Texture&;

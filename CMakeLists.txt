@@ -25,7 +25,6 @@ set(GLFW_BUILD_DOCS 0)
 # link to later on.
 add_subdirectory("${SRCDIR}/lib/glfw-3.2.1")
 add_subdirectory("${SRCDIR}/lib/SOIL-1.07")
-add_subdirectory("${SRCDIR}/lib/tiny_obj_loader")
 
 
 # Configure main executeable
@@ -94,8 +93,6 @@ configure_directory(${SRCDIR}/assets/shaders ${BINDIR}/assets/shaders)
 configure_directory(${SRCDIR}/assets/models ${BINDIR}/assets/models)
 configure_directory(${SRCDIR}/assets/textures ${BINDIR}/assets/textures)
 
-configure_directory(${SRCDIR}/assets/objs/house ${BINDIR}/assets/objs/house)
-configure_directory(${SRCDIR}/assets/objs/cube ${BINDIR}/assets/objs/cube)
 
 
 configure_file(${SRCDIR}/tools/discover.py ${BINDIR}/tools/discover.py COPYONLY)
@@ -133,7 +130,6 @@ target_link_libraries(
     PRIVATE glfw ${glfw_LIBRARIES}
     PRIVATE glew32
 	PRIVATE SOIL
-    PRIVATE tinyobjloader
 )
 
 ################################
@@ -164,7 +160,6 @@ target_link_libraries(
     PRIVATE ${GLEW_LIBRARY}
     PRIVATE glfw
     PRIVATE SOIL
-    PRIVATE tinyobjloader
 )
 endif()
 
