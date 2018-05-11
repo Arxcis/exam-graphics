@@ -38,7 +38,7 @@ void Watcher::pollEvents()
 {
     using namespace std::chrono_literals;
 
-    std::string PYTHON_COMMAND = {C::PythonPath + " tool/discover.py"};
+    std::string PYTHON_COMMAND = {C::PythonPath + " tools/discover.py"};
 
     const int DATA_SIZE = 128;
     char  data[DATA_SIZE] = "\n";

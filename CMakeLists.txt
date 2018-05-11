@@ -98,7 +98,7 @@ configure_directory(${SRCDIR}/assets/objs/house ${BINDIR}/assets/objs/house)
 configure_directory(${SRCDIR}/assets/objs/cube ${BINDIR}/assets/objs/cube)
 
 
-configure_file(${SRCDIR}/tool/discover.py ${BINDIR}/tool/discover.py COPYONLY)
+configure_file(${SRCDIR}/tools/discover.py ${BINDIR}/tools/discover.py COPYONLY)
 configure_file(${SRCDIR}/config.yml ${BINDIR}/config.yml COPYONLY)
 
 
