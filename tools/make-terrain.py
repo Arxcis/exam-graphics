@@ -43,7 +43,11 @@ class Color:
 class Vertex:
     __slot__ = ["position", "normal", "texcoord", "color"]
 
-    def __init__(self,position,normal=0,texcoord=0,color=0 ):
+    def __init__(self,position,
+                      normal  = Vec3(0,0,0),
+                      texcoord = Texcoord(0,0),
+                      color    = Color(0,0,0,0) ):
+
         self.position = position
         self.normal = normal
         self.texcoord = texcoord
@@ -62,14 +66,32 @@ class Triangle:
         self.normal = normal
 
 
-vertices  = []
-indicies  = []
-triangles = []
 
+def write_vertices(outfile, vertices):
+    # write vertices
+    outfile.write("vertices: {}\n".format(len(vertices)))
+    for vert in vertices:
+        outfile.write("v: {:9.6f} {:9.6f} {:9.6f}   {:6.3f} {:6.3f} {:6.3f}   {:6.3f} {:6.3f}   {:3} {:3} {:3} {:3}\n".format(
+                        vert.position.x,
+                        vert.position.y,
+                        vert.position.z,
+                        vert.normal.x,
+                        vert.normal.y,
+                        vert.normal.z,
+                        vert.texcoord.u,
+                        vert.texcoord.v, # remember to flip y axis
+                        vert.color.r,
+                        vert.color.g,
+                        vert.color.b,
+                        vert.color.a))
 
 if __name__ == "__main__":
+    vertices  = []
+    indicies  = []
+    triangles = []
 
     in_heightmap_path = "resources/ExamResources/heightmap/height100.png"
+    in_assets_path = "assets"
 
     try:
         im = Image.open(in_heightmap_path)
@@ -97,7 +119,8 @@ if __name__ == "__main__":
                 Vertex(position=Vec3(x,y,z)))
 
 
-    for v in vertices:
 
-        print(v)
+    with open(in_assets_path + "/models/terrain.yml", "w") as terrainfile:
+
+        write_vertices(terrainfile, vertices)
 
