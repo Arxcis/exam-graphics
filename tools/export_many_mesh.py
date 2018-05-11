@@ -2,13 +2,15 @@ import os
 import bpy
 import bmesh
 
+from subprocess import call
 
 # INPUT
 in_scale      = 1
-in_output_path = "assets/models/HOUSE.yml"
-in_model = "HOUSE"
-in_material = "HOUSE"
-in_shader = "objshader"
+in_assets_path = "assets"
+in_model = "glider"
+in_material = "mat_glider"
+in_texture = ""
+in_shader = "_default"
 
 
 def hasUV(mesh):
@@ -146,7 +148,7 @@ def write_mesh_header(outfile, mesh):
 
     # 1. Count number of meshes
     outfile.write("\nmesh: {}\n".format(mesh.name))
-    outfile.write("material: {}\n".format(in_material))
+    outfile.write("material: mat_{}\n".format(mesh.name))
     outfile.write("shader: {}\n".format(in_shader))
 
 
@@ -170,6 +172,24 @@ def write_mesh_triangles(outfile, triangles):
         ))
 
 
+def write_material(outfile, mesh):
+    
+    global in_texture
+
+    map_names = []
+    if mesh.data.uv_textures.active is not None:
+        for tf in mesh.data.uv_textures.active.data:
+            if tf.image:
+                if tf.image.name not in map_names:
+                    map_names.append(tf.image.name) 
+
+    outfile.write("maps: {}\n".format(len(map_names)))
+    for i, name in enumerate(map_names):
+        outfile.write("map_diffuse: {}\n".format(i, name))
+        break
+
+    outfile.write("values: 0\n")
+
 
 if __name__ == "__main__":
 
@@ -182,8 +202,13 @@ if __name__ == "__main__":
 
     [print(m) for m in meshes]
 
+    part_meshes_path   = in_assets_path+"/models/"+ in_model +".part_meshes.yml"
+    part_vertices_path = in_assets_path+"/models/"+ in_model +".part_vertices.yml"
+    full_model_path    = in_assets_path+"/models/"+ in_model + ".yml"
+
+
     # Open two files, one for vertices and one for triangles
-    with open(in_output_path+".temp_meshes", "w") as out_meshes:
+    with open(part_meshes_path, "w") as out_meshes:
 
         write_meshes_header(out_meshes, meshes)
 
@@ -193,18 +218,29 @@ if __name__ == "__main__":
             write_mesh_header(out_meshes, mesh)
             write_mesh_triangles(out_meshes, triangles)
 
+            full_material_path = in_assets_path + "/materials/mat_" + mesh.name + ".yml",
+            with open(full_material_path, "w") as out_material:
+                write_material(out_material, mesh)
+
+
+
+
     # Write vertices
-    with open(in_output_path+".temp_vertices", "w") as out_vertices:
+    with open(part_vertices_path, "w") as out_vertices:
         write_vertices(out_vertices, g_vertices)
 
 
     # COMBINE FILES
-    with open(in_output_path+".temp_vertices", "r") as in_vertices:
-        with open(in_output_path+".temp_meshes", "r") as in_meshes:
-            with open(in_output_path, "w") as out_model:
+    with open(part_vertices_path, "r") as in_vertices:
+        with open(part_meshes_path, "r") as in_meshes:
+            with open(full_model_path, "w") as out_model:
 
                 out_model.write(in_vertices.read())
                 out_model.write(in_meshes.read())
+
+    # Delete temp files
+    call(["rm", part_vertices_path])
+    call(["rm", part_meshes_path])
 
 
     print()
