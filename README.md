@@ -16,7 +16,7 @@
 
 
 16:29 - Finally some terrain data output
-* 
+
 ```shell
 vertices: 506016
 v:  0.000000 72.000000  0.000000    0.000  0.000  0.000    0.000  0.000     0   0   0   0
