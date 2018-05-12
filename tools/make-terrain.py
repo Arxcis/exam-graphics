@@ -99,7 +99,25 @@ def make_pixelbuffer(image):
     return pixelbuffer, width, height
 
 
-def make_grid_triangles(columns, rows, meshoffset=0):
+def make_triangles_plus_normals(vertices, columns, rows, meshoffset=0):
+
+    def cross(v1, v2):
+        return Vec3(v1.y*v2.z - v1.z*v2.y,
+                    v1.z*v2.x - v1.x*v2.z,
+                    v1.x*v2.y - v1.y*v2.x)
+
+    def lenvec3(v):
+        return (v.x*v.x + v.y*v.y + v.z*v.z)**0.5
+
+    def normalize(v):
+        length = lenvec3(v)
+        return Vec3(v.x/length, v.y/length, v.z/length)
+
+    def subvec3(v1,v2):
+        return Vec3(v1.position.x - v2.position.x,
+                    v1.position.y - v2.position.y,
+                    v1.position.z - v2.position.z)
+
 
     triangles = []
     for y in range(rows-1):
@@ -115,6 +133,16 @@ def make_grid_triangles(columns, rows, meshoffset=0):
 
             triangles.append(Triangle(a,b,c))
 
+            # normal - set up cross product
+            v1 = subvec3(vertices[b], vertices[a])
+            v2 = subvec3(vertices[c], vertices[a])
+            
+            crossp = cross(v1, v2)
+            normal = normalize(crossp)
+            vertices[a].normal = normal
+            vertices[b].normal = normal
+            vertices[c].normal = normal
+
             # 
             #    /|
             #   / |
@@ -126,60 +154,20 @@ def make_grid_triangles(columns, rows, meshoffset=0):
 
             triangles.append(Triangle(a,b,c))
 
+            # normal - set up cross product
+            v1 = subvec3(vertices[b], vertices[a])
+            v2 = subvec3(vertices[c], vertices[a])
+            
+            crossp = cross(v1, v2)
+            normal = normalize(crossp)
+            vertices[a].normal = normal
+            vertices[b].normal = normal
+            vertices[c].normal = normal
+
+
     return triangles
 
 
-
-def compute_vertex_normals(vertices, width, height):
-
-    left = 0
-    right = 0
-    up = 0
-    down = 0
-
-    for y in range(height):
-        for x in range(width):
-
-            # left right
-            if x == 0:
-                left = 1
-                right = 1
-            elif x == width-1:
-                left = width-2
-                right = width-2
-            else:
-                left = x-1
-                right = x+1
-
-            # up down
-            if y == 0:
-                up = 1
-                down = 1
-
-            elif y == height-1:
-                up = height-2
-                down = height-2
-            else:
-                up = y-1
-                down = y+1
-
-
-
-            diff_x  = vertices[right + y * width].position.y - vertices[left + y * width].position.y
-            diff_z = vertices[x + down * width].position.y - vertices[x + up * width].position.y
-
-            def cross(a, b):
-                c = [a[1]*b[2] - a[2]*b[1],
-                     a[2]*b[0] - a[0]*b[2],
-                     a[0]*b[1] - a[1]*b[0]]
-
-                return c            
-
-            crossp = cross((2, diff_x, 0), (0, diff_z, 2))
-
-            vertices[x + y * width].normal.x = crossp[0]
-            vertices[x + y * width].normal.y = crossp[1]
-            vertices[x + y * width].normal.z = crossp[2]
 
 
 
@@ -269,11 +257,9 @@ if __name__ == "__main__":
     pixelbuffer, width, height = make_pixelbuffer(image)
 
     make_height_vertices(vertices, pixelbuffer, width, height)
-    base_triangles = make_grid_triangles(columns=width, rows=height)
-
-    compute_vertex_normals(vertices=vertices, 
-                           height=height, 
-                           width=width)
+    base_triangles = make_triangles_plus_normals(vertices=vertices,
+                                                 columns=width, 
+                                                 rows=height)
 
     #
     # Generate water
@@ -285,7 +271,8 @@ if __name__ == "__main__":
                         startheight=0.1,
                         alpha=100)
 
-    water_triangle = make_grid_triangles(columns=100, 
+    water_triangle = make_triangles_plus_normals(vertices=vertices, 
+                                         columns=100, 
                                          rows=100, 
                                          meshoffset=meshoffset)
 

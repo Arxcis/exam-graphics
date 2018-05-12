@@ -1,7 +1,7 @@
 cameras: 1
 
 camera: maincam
-  position: 0 0 0
+  position: 0 10 0
   rotation: 0 -90 0
   velocity: 0 0 0
   angleVelocity: 0 0 0
@@ -16,7 +16,7 @@ entity: terrain
   model: terrain
   position: 0 0 0
   rotation: 0 0 0
-  scale: 50 10 50
+  scale: 50 5 100
   velocity: 0 0 0
   angleVelocity: 0 0 0
 
