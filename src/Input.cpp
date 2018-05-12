@@ -15,8 +15,10 @@ namespace overkill
     float Input::m_camPanY = 0;
     bool Input::m_navKeyPressed[] = {false, false, false, false, false, false}; // Which navigation keys are pressed. WASD-QE keys.
 
-    void Input::OnInputKeyPress(GLFWwindow* window, int keyCode, int /*scanCode*/, int /*mods*/)
+    void Input::OnInputKeyPress(GLFWwindow* window, int keyCode, int /*scanCode*/, int mods)
     {
+        const int ShiftMod = 1;
+
         // LOG_DEBUG("Pressing %i, as char: %c\n", keyCode, char(keyCode));
         if (keyCode == GLFW_KEY_ESCAPE)
         {
@@ -24,22 +26,24 @@ namespace overkill
         }
 
         // PRESS 1 TO RELOAD ShaderSystem
-        else if(keyCode == GLFW_KEY_1) {
+        else if(keyCode == GLFW_KEY_1 && mods == ShiftMod) {
             ShaderSystem::reload();
         }
         // PRESS 2 TO RELOAD MaterialSystem
-        else if(keyCode == GLFW_KEY_2) {
+        else if(keyCode == GLFW_KEY_2 && mods == ShiftMod) {
             MaterialSystem::reload();
         }
         // PRESS 3 TO RELOAD ModelSystem
-        else if(keyCode == GLFW_KEY_3) {
+        else if(keyCode == GLFW_KEY_3 && mods == ShiftMod) {
             ModelSystem::reload();
         }
         // PRESS 4 TO RELOAD Scene
-        else if(keyCode == GLFW_KEY_4) {
+        else if(keyCode == GLFW_KEY_4 && mods == ShiftMod) {
             Scene::reload();
         }
-        else if (keyCode == GLFW_KEY_O) {
+        else if (keyCode == GLFW_KEY_C) {
+
+            LOG_INFO("TOGGLING");
 
             ModelSystem::toggleShader("terrain",
                                       "terrain",
@@ -47,6 +51,76 @@ namespace overkill
                                       "contour");
 
         }
+
+
+        //
+        // @note
+        // Here comes all the key combinations which are required to
+        // pass the exam.
+        // -----------------------
+        //  key 1: Pick sprint
+        //  key 2: Pick Summer
+        //  key 3: Pick autumn
+        //  Key 4: Pick Winter
+        //  Key 5: Pause season change
+        //
+        //  Key 6: Pick morning
+        //  Key 7: Pick noon
+        //  Key 8: Pick afternoon
+        //  Key 9: Pick night
+        //  Key 0: Pause daycycle
+        //
+
+        // Key ,: up tide   percent
+        // Key .: down tide percent 
+
+
+        else if(keyCode == GLFW_KEY_1) {
+
+        }
+        else if(keyCode == GLFW_KEY_2) {
+
+        }
+        else if(keyCode == GLFW_KEY_3) {
+
+        }
+        else if(keyCode == GLFW_KEY_4) {
+
+        }
+        else if (keyCode == GLFW_KEY_5) {
+
+        }
+        else if (keyCode == GLFW_KEY_6) {
+            const float MorningInSeconds = 6*60*60;
+            Scene::times.timeofday_seconds = MorningInSeconds;
+        }   
+        else if (keyCode == GLFW_KEY_7) {
+            const float NoonInSeconds = 12*60*60;
+            Scene::times.timeofday_seconds = NoonInSeconds;
+
+        }
+        else if (keyCode == GLFW_KEY_8) {
+            const float AfternoonInSeconds = 18*60*60;
+            Scene::times.timeofday_seconds = AfternoonInSeconds;
+        }
+        else if (keyCode == GLFW_KEY_9) {
+            const float MidnightInSeconds = 0;
+            Scene::times.timeofday_seconds = MidnightInSeconds;
+        }
+        else if (keyCode == GLFW_KEY_0) {
+            C::DayRunning = (C::DayRunning) ? false : true;
+        }
+
+        else if (keyCode == GLFW_KEY_PERIOD) {
+
+            Scene::times.timeoftide_percent += 3;
+        }
+
+        else if (keyCode == GLFW_KEY_COMMA) {
+            Scene::times.timeoftide_percent -= 3;
+        }
+
+
         // PRESS SPACE to toggle camera mode
         else if(keyCode == GLFW_KEY_SPACE) {
             EntityCamera* cam = (EntityCamera*) Scene::getActiveCamera();

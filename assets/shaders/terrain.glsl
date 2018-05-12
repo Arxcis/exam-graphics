@@ -75,7 +75,7 @@ layout(std140) uniform OK_Times {
 vec3 OK_DirectionalLight(in vec3 lightDir, in vec3 intensities, in vec3 in_normal) 
 {
     //Ambience
-    float ambientStrength = 3;
+    float ambientStrength = 15;
     vec3 ambient = ambientStrength * intensities;
 
 
@@ -84,17 +84,22 @@ vec3 OK_DirectionalLight(in vec3 lightDir, in vec3 intensities, in vec3 in_norma
     float diffusion = max(dot(in_normal, lightDir), 0.0);
     vec3 diffuse = diffusion * intensities;
 
-    return (ambient + 0.1*diffuse);
+    return (ambient + 0.3*diffuse);
 }
 
 uniform sampler2D map_diffuse;
 
 uniform float time = 0;
 
-void main() {
-    
-    float suntime = time * 0.5;
-    vec3 sunDirectionByTime = vec3(cos(suntime)*1, sin(suntime)*1, sun.direction.z);
+#define NumbersOfSecondsInADay 86400.0
+#define PI 3.141592
+
+void main() 
+{
+    float cosine_correction = - PI/2;
+    float suntime = (timeofday_seconds / NumbersOfSecondsInADay) * 2 * PI + cosine_correction;
+
+    vec3  sunDirectionByTime = vec3(cos(suntime), sin(suntime), sun.direction.z);
 
 
     vec3 sunlight = OK_DirectionalLight(sunDirectionByTime, sun.intensities.rgb, frag_Normal);  

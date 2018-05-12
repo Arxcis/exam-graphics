@@ -83,7 +83,11 @@ int main(int argc, char** args)
     for(;;)
     {
         t = (float)glfwGetTime();
+        
+
         dt = t - oldT;
+
+
         if ((glfwGetKey(C::window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(C::window) != 0))
             break;
 
@@ -93,7 +97,31 @@ int main(int argc, char** args)
 
         // Draws all the models in the scene.
         Scene::draw(t);     
+
+
+        //
+        // CONTROL TIME
+        //
+
+        // 1. Elapsed time
         Scene::times.elapsed_time = t;
+
+
+        // 2. Day time in seconds
+        if (C::DayRunning) 
+        {
+            const auto TimeMultiplier = 10000; // 10k seconds for every second
+            Scene::times.timeofday_seconds += dt * TimeMultiplier;
+        }
+
+        // 3. Year time in days
+        if (C::YearRunning) 
+        {
+            const auto TimeMultiplier = 30; // 30 days for very second
+            Scene::times.timeofyear_days += dt *  TimeMultiplier;
+        }
+
+
 
         //This can be done to debug positions
         //glm::mat4 camPosDebugM2W = glm::translate(glm::mat4(1), glm::vec3(cameraTransform.position));

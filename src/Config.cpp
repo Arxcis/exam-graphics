@@ -28,6 +28,14 @@ char C::MaterialsFolder[C::StrSize] = "assets/materials";
 char C::ModelsFolder[C::StrSize]    = "assets/models";
 char C::ScenesFolder[C::StrSize]    = "assets/scenes";
 
+
+
+    // time flags
+bool C::DayRunning = true; 
+bool C::YearRunning = true;
+bool C::TideRunning = true;
+
+
 std::string C::PythonPath = "python3";
 
 unsigned int C::MAX_LIGHTS = 8; //inject it into shaders

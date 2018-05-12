@@ -46,6 +46,12 @@ public:
     static char ModelsFolder[StrSize];
     static char ScenesFolder[StrSize];
 
+
+    // time flags
+    static bool DayRunning;
+    static bool YearRunning;
+    static bool TideRunning;
+
     static unsigned int MAX_LIGHTS; //inject it into shaders
     static GLFWwindow* window;
 };

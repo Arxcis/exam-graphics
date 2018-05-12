@@ -701,7 +701,6 @@ void Scene::load(std::string sceneFile)
         m_lightBuffer.update(m_sunGLindex, sizeof(DirectionalLightBO), &sunlight);
 
 
-        LOG_DEBUG("sunlight direction: %f", sunlight.direction);
 
         for (Entity* entity : m_entities)
         {
