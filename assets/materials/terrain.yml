@@ -1,3 +1,5 @@
-maps: 1
+maps: 2
 map_diffuse: heightmap_rgb
+map_seasons: seasons_ramp
+
 values: 0

@@ -117,7 +117,7 @@ int main(int argc, char** args)
         // 3. Year time in days
         if (C::YearRunning) 
         {
-            const auto TimeMultiplier = 30; // 30 days for very second
+            const auto TimeMultiplier = 10; // 30 days for very second
             Scene::times.timeofyear_days += dt *  TimeMultiplier;
         }
 

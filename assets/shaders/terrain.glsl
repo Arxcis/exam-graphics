@@ -7,9 +7,9 @@ layout(location = 1) in vec3 normal;
 layout(location = 2) in vec2 uv;
 layout(location = 3) in vec4 vertex_color;
 
-out vec3 frag_Pos;
+out float     frag_Height;
+out vec2      frag_UV;
 flat out vec3 frag_Normal;
-out vec2 frag_UV;
 
 uniform mat4 m2w;
 
@@ -28,20 +28,35 @@ void main() {
     gl_Position = out_position;
 
 
-    frag_Pos = vec3(m2w * position);    
+    frag_Height = position.y;    
     frag_UV = uv;
     frag_Normal = normal;
 }
 
+
+
+
+
+
+
 #shader fragment
 #version 410
+
+#define PI 3.141592
 #define MAX_LIGHTS 8
+#define NumbersOfSecondsInADay 86400.0
+#define NumberOfDaysInAYear 365
 
-// in vec3 frag_Pos;
+in     float frag_Height;
 flat in vec3 frag_Normal;
-in vec2 frag_UV;
-out vec4 out_color;
+in vec2      frag_UV;
+out vec4     out_color;
 
+
+uniform sampler2D map_diffuse;
+uniform sampler2D map_seasons;
+
+uniform float time = 0;
 
 
 struct OK_Light_Directional {
@@ -75,7 +90,7 @@ layout(std140) uniform OK_Times {
 vec3 OK_DirectionalLight(in vec3 lightDir, in vec3 intensities, in vec3 in_normal) 
 {
     //Ambience
-    float ambientStrength = 15;
+    float ambientStrength = 6.5;
     vec3 ambient = ambientStrength * intensities;
 
 
@@ -84,15 +99,10 @@ vec3 OK_DirectionalLight(in vec3 lightDir, in vec3 intensities, in vec3 in_norma
     float diffusion = max(dot(in_normal, lightDir), 0.0);
     vec3 diffuse = diffusion * intensities;
 
-    return (ambient + 0.3*diffuse);
+    return (ambient + 0.01*diffuse);
 }
 
-uniform sampler2D map_diffuse;
 
-uniform float time = 0;
-
-#define NumbersOfSecondsInADay 86400.0
-#define PI 3.141592
 
 void main() 
 {
@@ -101,9 +111,22 @@ void main()
 
     vec3  sunDirectionByTime = vec3(cos(suntime), sin(suntime), sun.direction.z);
 
-
     vec3 sunlight = OK_DirectionalLight(sunDirectionByTime, sun.intensities.rgb, frag_Normal);  
 
-    vec3 diffuse = texture(map_diffuse, frag_UV).rgb;
-    out_color = vec4(sunlight * diffuse, 1);
+    //
+    // Map greyscale heightmap to terrain
+    //
+    //vec3 diffuse = texture(map_diffuse, frag_UV).rgb;
+    // out_color = vec4(sunlight * diffuse, 1);
+    
+
+    //
+    // Map season texture to terrain
+    //
+    float u = frag_Height;
+    float v = (timeofyear_days) /  NumberOfDaysInAYear;
+    vec3 season_color = texture(map_seasons, vec2(u, v)).rgb;
+    out_color = vec4(sunlight * season_color, 1);    
+
 }
+
