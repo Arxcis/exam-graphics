@@ -22,7 +22,12 @@ entity: terrain
 
 pointlights: 0
 
-hasSun: 0
+hasSun: 1
+
+dirlight: distantSunLight
+  rotation: 0 45 0
+  angleVelocity: 0 0 0
+  intensities: 0.015 0.015 0.01
 
 
 relations: 0

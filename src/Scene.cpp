@@ -691,11 +691,15 @@ void Scene::load(std::string sceneFile)
                               sizeof(CameraTransform),
                               &(m_activeCamera -> m_cameraTransform));
 
+
+
         // Buffer light data
         Scene::bufferPointLights();
-        auto pointLight = (((EntityDirectionalLight*)m_entities[m_lightsOffset + m_lightsCount])->pack());
-        m_lightBuffer.update(m_sunGLindex, sizeof(DirectionalLightBO), &pointLight);
+        auto sunlight = (((EntityDirectionalLight*)m_entities[m_lightsOffset + m_lightsCount])->pack());
+        m_lightBuffer.update(m_sunGLindex, sizeof(DirectionalLightBO), &sunlight);
 
+
+        LOG_DEBUG("sunlight direction: %f", sunlight.direction);
 
         for (Entity* entity : m_entities)
         {

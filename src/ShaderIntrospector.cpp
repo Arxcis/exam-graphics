@@ -83,6 +83,8 @@ auto ShaderIntrospector::checkCompileStatus(const GLuint shaderid) -> C::Err
         GLCall(glDeleteShader(shaderid));
 
         LOG_WARN("GL_COMPILE_STATUS: %s", message);
+
+        std::cin.get();
         return 1;
     }
     return 0;

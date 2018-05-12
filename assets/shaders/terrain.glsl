@@ -8,9 +8,11 @@ layout(location = 2) in vec2 uv;
 layout(location = 3) in vec4 vertex_color;
 
 out vec3 frag_Pos;
-out vec2 tex_coord;
+flat out vec3 frag_Normal;
+out vec2 frag_UV;
 
 uniform mat4 m2w;
+
 layout(std140) uniform OK_Matrices{
     mat4 projection;
     mat4 view;
@@ -24,27 +26,77 @@ vec4 MVP(in vec4 position) {
 void main() {
     vec4 out_position = MVP(position);
     gl_Position = out_position;
-    frag_Pos = vec3(m2w * position);
-    
-    tex_coord = uv;
+
+
+    frag_Pos = vec3(m2w * position);    
+    frag_UV = uv;
+    frag_Normal = normal;
 }
 
 #shader fragment
 #version 410
 
-in vec3 frag_Pos;
-in vec2 tex_coord;
+// in vec3 frag_Pos;
+flat in vec3 frag_Normal;
+in vec2 frag_UV;
 out vec4 out_color;
+
+
+// @note 
+// How the light structs are laid out is very strict.
+// This is because of how the Uniform buffers allight their data.
+// If you don't specify the light structs in this very exact pattern 
+// you will run into allignment issues.
+#define MAX_LIGHTS 8
+
+struct OK_Light_Directional {
+    vec4 direction;
+    vec4 intensities;
+};
+
+struct OK_Light_Point {
+    vec4 position;
+    vec4 intensities;
+    float constant;
+    float linear;
+    float quadratic;
+    float alignment;
+};
+
+layout(std140) uniform OK_Lights{
+    OK_Light_Point light[MAX_LIGHTS];
+    OK_Light_Directional sun;
+};
+
+
+// @doc https://learnopengl.com/Lighting/Basic-Lighting - 2018-05-12
+vec3 OK_DirectionalLight(in vec3 lightDir, in vec3 intensities, in vec3 in_normal) 
+{
+    //Ambience
+    float ambientStrength = 3;
+    vec3 ambient = ambientStrength * intensities;
+
+
+    //Diffuse
+    lightDir = normalize(lightDir);
+    float diffusion = max(dot(in_normal, lightDir), 0.0);
+    vec3 diffuse = diffusion * intensities;
+
+    return (ambient + 0.1*diffuse);
+}
 
 uniform sampler2D map_diffuse;
 
 uniform float time = 0;
 
 void main() {
-  
-    float height = frag_Pos.y;
+    
+    float suntime = time * 0.5;
+    vec3 sunDirectionByTime = vec3(cos(suntime)*1, sin(suntime)*1, sun.direction.z);
 
-    vec3 tex = texture(map_diffuse, tex_coord).rgb;
 
-    out_color = vec4(tex, 1) + vec4(.4,.2,.2,0);
+    vec3 sunlight = OK_DirectionalLight(sunDirectionByTime, sun.intensities.rgb, frag_Normal);  
+
+    vec3 diffuse = texture(map_diffuse, frag_UV).rgb;
+    out_color = vec4(sunlight * diffuse, 1);
 }
