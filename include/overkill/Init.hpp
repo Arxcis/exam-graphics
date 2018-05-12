@@ -11,6 +11,9 @@
 
 #include <PMS/logger.h>
 
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw_gl3.h>
+
 #include <overkill/gl_caller.hpp>
 #include <overkill/Parser.hpp>
 #include <overkill/Input.hpp>
@@ -31,6 +34,10 @@ auto GLFW(
     const char* wname) -> GLFWwindow*;
 void GLEW();
 void OpenGL(const glm::vec4 background);
+
+void ImGUI(GLFWwindow* window);
+    
+
 
 void Config();
 

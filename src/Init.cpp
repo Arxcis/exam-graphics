@@ -74,6 +74,19 @@ void Init::OpenGL(const glm::vec4 background)
 
 
 
+void Init::ImGUI(GLFWwindow* window) 
+{
+    ImGui::CreateContext();
+  //  ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui_ImplGlfwGL3_Init(window, true);
+
+    // Setup style
+    ImGui::StyleColorsDark();
+
+}
+
+
+
 void Init::Config() 
 {
     auto filestring = Util::fileToString(C::Configpath);

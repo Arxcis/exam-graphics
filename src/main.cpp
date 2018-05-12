@@ -15,12 +15,17 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw_gl3.h>
+
 #include <overkill/Config.hpp>
 #include <overkill/Init.hpp>
 #include <overkill/Input.hpp>
 #include <overkill/gl_caller.hpp>
 #include <overkill/Renderer.hpp>
 #include <overkill/Util.hpp>
+
+#include <overkill/GUI.hpp>
 
 #include <overkill/TextureSystem.hpp>
 #include <overkill/ShaderSystem.hpp>
@@ -55,6 +60,8 @@ int main(int argc, char** args)
 
     Init::GLEW();
     Init::OpenGL(C::ClearColor);
+    Init::ImGUI(C::window);
+
     Watcher::pollEvents();
 
     // Load asset subsystems
@@ -80,8 +87,13 @@ int main(int argc, char** args)
 
     float oldT = 0, t = 0, dt = 0;
 
+    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    bool show_demo_window = true;
+    bool show_another_window = false;
+
     for(;;)
     {
+
         t = (float)glfwGetTime();
         
 
@@ -119,17 +131,29 @@ int main(int argc, char** args)
         {
             const auto TimeMultiplier = 10; // 30 days for very second
             Scene::times.timeofyear_days += dt *  TimeMultiplier;
-        }
 
+        }
 
 
         //This can be done to debug positions
         //glm::mat4 camPosDebugM2W = glm::translate(glm::mat4(1), glm::vec3(cameraTransform.position));
         //Renderer::draw(ModelSystem::getById(0), camPosDebugM2W, t);
 
+ 
+        //
+        // RENDER GUI
+        //
+        GUI::begin();
+        GUI::updateTimeOfDay(Scene::times.timeofday_seconds);
+        GUI::updateTimeOfYear(Scene::times.timeofyear_days);
+        GUI::end();
+
+        //
+        // RENDER OpenGL
+        //
         glfwSwapBuffers(C::window);
         glfwPollEvents();
-
+        
         oldT = t;
 
         // break; // For testing load performance
@@ -139,6 +163,10 @@ int main(int argc, char** args)
     ModelSystem::clean();
     ShaderSystem::clean();
     TextureSystem::clean();
+
+
+    ImGui_ImplGlfwGL3_Shutdown();
+    ImGui::DestroyContext();
 
     glfwDestroyWindow(C::window);
     glfwTerminate();

@@ -41,6 +41,14 @@ set_target_properties(
 
 target_sources(
     cube
+
+
+    # IMGUI cpp files
+    PRIVATE ${SRCDIR}/lib/imgui/imgui.cpp
+    PRIVATE ${SRCDIR}/lib/imgui/imgui_draw.cpp
+    PRIVATE ${SRCDIR}/lib/imgui/imgui_impl_glfw_gl3.cpp
+
+    # My .cpp files
     PRIVATE ${SRCDIR}/src/Config.cpp
     PRIVATE ${SRCDIR}/src/ElementBuffer.cpp
 	PRIVATE ${SRCDIR}/src/gl_caller.cpp
@@ -71,6 +79,7 @@ target_sources(
 
 	PRIVATE ${SRCDIR}/src/UniformBuffer.cpp
 	PRIVATE ${SRCDIR}/src/ShaderIntrospector.cpp
+
 )
 
 #
