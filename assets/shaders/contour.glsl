@@ -31,6 +31,7 @@ void main() {
 
 #shader fragment
 #version 410
+#define PI 3.141592
 
 in vec3 frag_Pos;
 in vec2 tex_coord;
@@ -46,7 +47,7 @@ void main() {
 
     vec3 tex = texture(map_diffuse, tex_coord).rgb;
 
-    vec3 contour = vec3(sin(height), 0, 0);
+    vec3 contour = vec3(sin(height*2*PI*20), 0, 0);
     contour.r -= 0.40;
     out_color = vec4(tex + contour, 1);
 }
