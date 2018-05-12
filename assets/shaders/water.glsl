@@ -77,5 +77,5 @@ void main() {
   
     float height = frag_Pos.y;
 
-    out_color = vec4(vert_Color.rgb,.15);
+    out_color = vec4(vert_Color.rgb, .25);
 }

@@ -90,7 +90,7 @@ layout(std140) uniform OK_Times {
 vec3 OK_DirectionalLight(in vec3 lightDir, in vec3 intensities, in vec3 in_normal) 
 {
     //Ambience
-    float ambientStrength = 6.5;
+    float ambientStrength = 10;
     vec3 ambient = ambientStrength * intensities;
 
 
@@ -123,9 +123,12 @@ void main()
     //
     // Map season texture to terrain
     //
+    float texture_correction = 0.1;
     float u = frag_Height;
-    float v = (timeofyear_days) /  NumberOfDaysInAYear;
+    float v = (timeofyear_days) /  NumberOfDaysInAYear + texture_correction;
     vec3 season_color = texture(map_seasons, vec2(u, v)).rgb;
+    season_color *= texture(map_diffuse, frag_UV).rgb + vec3(.2,.2,.2);
+
     out_color = vec4(sunlight * season_color, 1);    
 
 }

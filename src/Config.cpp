@@ -30,9 +30,9 @@ char C::ScenesFolder[C::StrSize]    = "assets/scenes";
 
 
 
-    // time flags
-bool C::DayRunning = true; 
-bool C::YearRunning = true;
+// time flags
+bool C::DayRunning  = false; 
+bool C::YearRunning = false;
 bool C::TideRunning = true;
 
 

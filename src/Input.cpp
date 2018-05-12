@@ -18,6 +18,7 @@ namespace overkill
     void Input::OnInputKeyPress(GLFWwindow* window, int keyCode, int /*scanCode*/, int mods)
     {
         const int ShiftMod = 1;
+        const float DaysInAMonth = 4.33*7;
 
         // LOG_DEBUG("Pressing %i, as char: %c\n", keyCode, char(keyCode));
         if (keyCode == GLFW_KEY_ESCAPE)
@@ -58,7 +59,7 @@ namespace overkill
         // Here comes all the key combinations which are required to
         // pass the exam.
         // -----------------------
-        //  key 1: Pick sprint
+        //  key 1: Pick spring
         //  key 2: Pick Summer
         //  key 3: Pick autumn
         //  Key 4: Pick Winter
@@ -74,49 +75,58 @@ namespace overkill
         // Key ,: up tide   percent
         // Key .: down tide percent 
 
-
         else if(keyCode == GLFW_KEY_1) {
-
+            const float MidSpringInDays = DaysInAMonth*4;
+            Scene::times.timeofyear_days = MidSpringInDays;
         }
         else if(keyCode == GLFW_KEY_2) {
+            const float MidSummerInDays = DaysInAMonth*7;
+            Scene::times.timeofyear_days = MidSummerInDays;
 
         }
         else if(keyCode == GLFW_KEY_3) {
+            const float MidAutumnInDays = DaysInAMonth*10;
+            Scene::times.timeofyear_days = MidAutumnInDays;
 
         }
         else if(keyCode == GLFW_KEY_4) {
-
+            const float MidWinterInDays = DaysInAMonth*1;
+            Scene::times.timeofyear_days = MidWinterInDays;
         }
         else if (keyCode == GLFW_KEY_5) {
-
+            C::YearRunning = (C::YearRunning)? false : true;
         }
+
         else if (keyCode == GLFW_KEY_6) {
             const float MorningInSeconds = 6*60*60;
             Scene::times.timeofday_seconds = MorningInSeconds;
         }   
+        
         else if (keyCode == GLFW_KEY_7) {
             const float NoonInSeconds = 12*60*60;
             Scene::times.timeofday_seconds = NoonInSeconds;
-
         }
+        
         else if (keyCode == GLFW_KEY_8) {
             const float AfternoonInSeconds = 18*60*60;
             Scene::times.timeofday_seconds = AfternoonInSeconds;
         }
+        
         else if (keyCode == GLFW_KEY_9) {
             const float MidnightInSeconds = 0;
             Scene::times.timeofday_seconds = MidnightInSeconds;
         }
+        
         else if (keyCode == GLFW_KEY_0) {
             C::DayRunning = (C::DayRunning) ? false : true;
         }
 
-        else if (keyCode == GLFW_KEY_PERIOD) {
+        else if (keyCode == GLFW_KEY_UP) {
 
             Scene::times.timeoftide_percent += 3;
         }
 
-        else if (keyCode == GLFW_KEY_COMMA) {
+        else if (keyCode == GLFW_KEY_DOWN) {
             Scene::times.timeoftide_percent -= 3;
         }
 
