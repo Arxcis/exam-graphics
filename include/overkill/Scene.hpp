@@ -28,6 +28,16 @@ struct DirectionalLight
     glm::vec4 intensities;  //16->32
 };
 
+
+struct Times 
+{
+    float elapsed_time;
+    float timeofday_seconds;
+    float timeofyear_days;
+    float timeoftide_percent;
+};
+
+
 class Scene
 {
 private:
@@ -38,8 +48,12 @@ private:
     static int m_cameraCount;                   // The amount of cameras in the scene.s
     
     static DirectionalLight m_sun;
+    
     static UniformBuffer m_matrixBuffer;
     static UniformBuffer m_lightBuffer;
+    static UniformBuffer m_timesBuffer;
+
+    static GLuint m_timesGLindex;
     static GLuint m_projectionGLindex;
     static GLuint m_pointLightGLindex;
     static GLuint m_sunGLindex;
@@ -58,6 +72,8 @@ private:
     static void bufferPointLights();
 
 public:
+    static Times times;
+
     static void load();                         // Dummy loader.
     static bool entityExist(const C::Tag tag);
 

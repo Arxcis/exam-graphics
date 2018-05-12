@@ -12,11 +12,14 @@ std::vector<int>     Scene::m_rootEntities;
 EntityCamera*        Scene::m_activeCamera;
 int                  Scene::m_cameraCount;
 
-
-DirectionalLight Scene::m_sun;
+Times                Scene::times;
+DirectionalLight     Scene::m_sun;
 
 UniformBuffer Scene::m_matrixBuffer;
 UniformBuffer Scene::m_lightBuffer;
+UniformBuffer Scene::m_timesBuffer;
+
+GLuint Scene::m_timesGLindex;
 GLuint Scene::m_projectionGLindex;
 GLuint Scene::m_pointLightGLindex;
 GLuint Scene::m_sunGLindex;
@@ -505,16 +508,12 @@ void Scene::load(std::string sceneFile)
 
     m_matrixBuffer      = ShaderSystem::getUniformBuffer("OK_Matrices");
     m_lightBuffer       = ShaderSystem::getUniformBuffer("OK_Lights");
+    m_timesBuffer        = ShaderSystem::getUniformBuffer("OK_Times");
+
+    m_timesGLindex      = m_timesBuffer.getUniformIndex("elapsed_time");
     m_projectionGLindex = m_matrixBuffer.getUniformIndex("projection");
     m_pointLightGLindex = m_lightBuffer.getUniformIndex("light[0].position");
     m_sunGLindex        = m_lightBuffer.getUniformIndex("sun.direction");
-/*
-    m_sun = DirectionalLight {
-            -glm::vec4{ 10, 9, 8, 7 },
-            { 1.0f, 0.756862745f, 0.552941176f,0.0f }
-    };
-*/
-
 
 
 
@@ -692,6 +691,9 @@ void Scene::load(std::string sceneFile)
                               &(m_activeCamera -> m_cameraTransform));
 
 
+
+        // Buffer times data
+        Scene::m_timesBuffer.update(m_timesGLindex, sizeof(Times), &(Scene::times));
 
         // Buffer light data
         Scene::bufferPointLights();

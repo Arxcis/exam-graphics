@@ -152,6 +152,9 @@ void ShaderSystem::push(const C::Tag tag, const std::string& filepath)
 void ShaderSystem::createUniformBuffers()
 {
 
+    //
+    // Set up projection uniform buffer
+    //
     auto matBufferLayout = BlockLayout();
     matBufferLayout.push("projection", 64);
     matBufferLayout.push("view", 64);
@@ -160,6 +163,9 @@ void ShaderSystem::createUniformBuffers()
     ShaderSystem::m_mapUniformBuffersID["OK_Matrices"] = ShaderSystem::m_uniformBuffers.size(); //assign ID/index
     ShaderSystem::m_uniformBuffers.emplace_back(UniformBuffer("OK_Matrices", matBufferLayout, GL_DYNAMIC_DRAW));
 
+    //
+    // Set up light uniform buffer
+    //
     auto pointLightStructLayout = BlockLayout("light");
     pointLightStructLayout.push("position", 16);
     pointLightStructLayout.push("intensities", 16);
@@ -187,6 +193,20 @@ void ShaderSystem::createUniformBuffers()
 
     ShaderSystem::m_mapUniformBuffersID["OK_Lights"] = ShaderSystem::m_uniformBuffers.size(); //assign ID/index
     ShaderSystem::m_uniformBuffers.emplace_back(UniformBuffer("OK_Lights", lightBufferLayout, GL_DYNAMIC_DRAW));
+
+
+
+    //
+    // Set up time uniform buffer
+    //
+    auto timeStructLayout = BlockLayout("times");
+    timeStructLayout.push("elapsed_time", 4);       // float how long the program has been running
+    timeStructLayout.push("timeofday_seconds", 4); // float between 0 - (60 * 60 * 24) = 86400
+    timeStructLayout.push("timeofyear_days", 4);   // float between 0 - 365
+    timeStructLayout.push("timeoftide_percent", 4); // float between 0 - 100
+
+    ShaderSystem::m_mapUniformBuffersID["OK_Times"] = ShaderSystem::m_uniformBuffers.size();
+    ShaderSystem::m_uniformBuffers.emplace_back(UniformBuffer("OK_Times", timeStructLayout, GL_DYNAMIC_DRAW));
 }
 
 void ShaderSystem::load() 

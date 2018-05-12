@@ -93,6 +93,7 @@ int main(int argc, char** args)
 
         // Draws all the models in the scene.
         Scene::draw(t);     
+        Scene::times.elapsed_time = t;
 
         //This can be done to debug positions
         //glm::mat4 camPosDebugM2W = glm::translate(glm::mat4(1), glm::vec3(cameraTransform.position));

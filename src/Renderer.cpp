@@ -50,6 +50,7 @@ void Renderer::draw(const Model& model, glm::mat4 modelMatrix, float t)
         shader.bind();
         shader.setMaterial(MaterialSystem::getById(mesh.m_materialID));
         GLCall(glUniform1f(shader.getUniformLocation("time"), t));
+
         GLCall(glUniformMatrix4fv(shader.getUniformLocation("m2w"), 1, GL_FALSE, glm::value_ptr(modelMatrix)));
 
         if (shader.m_tag == "water")

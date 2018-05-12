@@ -21,12 +21,13 @@ enum NavigationKey
     W, A, S, D, Q, E
 };
 
+
+
 class Input
 {
 private:
     static bool m_leftButtonDown;
     static bool m_rightButtonDown;
-
 
 public:
     static float m_fovy;          // The camera's field of view on Y axis. Used for zoom.

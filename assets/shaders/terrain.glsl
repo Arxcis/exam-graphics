@@ -35,6 +35,7 @@ void main() {
 
 #shader fragment
 #version 410
+#define MAX_LIGHTS 8
 
 // in vec3 frag_Pos;
 flat in vec3 frag_Normal;
@@ -42,12 +43,6 @@ in vec2 frag_UV;
 out vec4 out_color;
 
 
-// @note 
-// How the light structs are laid out is very strict.
-// This is because of how the Uniform buffers allight their data.
-// If you don't specify the light structs in this very exact pattern 
-// you will run into allignment issues.
-#define MAX_LIGHTS 8
 
 struct OK_Light_Directional {
     vec4 direction;
@@ -66,6 +61,13 @@ struct OK_Light_Point {
 layout(std140) uniform OK_Lights{
     OK_Light_Point light[MAX_LIGHTS];
     OK_Light_Directional sun;
+};
+
+layout(std140) uniform OK_Times {
+    float elapsed_time;
+    float timeofday_seconds;
+    float timeofyear_days;
+    float timeoftide_percent;
 };
 
 
