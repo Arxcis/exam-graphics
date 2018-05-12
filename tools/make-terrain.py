@@ -129,11 +129,59 @@ def make_grid_triangles(columns, rows, meshoffset=0):
     return triangles
 
 
-def compute_triangle_normals():
-    return
 
-def compute_vertex_normals():
-    return
+def compute_vertex_normals(vertices, width, height):
+
+    left = 0
+    right = 0
+    up = 0
+    down = 0
+
+    for y in range(height):
+        for x in range(width):
+
+            # left right
+            if x == 0:
+                left = 1
+                right = 1
+            elif x == width-1:
+                left = width-2
+                right = width-2
+            else:
+                left = x-1
+                right = x+1
+
+            # up down
+            if y == 0:
+                up = 1
+                down = 1
+
+            elif y == height-1:
+                up = height-2
+                down = height-2
+            else:
+                up = y-1
+                down = y+1
+
+
+
+            diff_x  = vertices[right + y * width].position.y - vertices[left + y * width].position.y
+            diff_z = vertices[x + down * width].position.y - vertices[x + up * width].position.y
+
+            def cross(a, b):
+                c = [a[1]*b[2] - a[2]*b[1],
+                     a[2]*b[0] - a[0]*b[2],
+                     a[0]*b[1] - a[1]*b[0]]
+
+                return c            
+
+            crossp = cross((2, diff_x, 0), (0, diff_z, 2))
+
+            vertices[x + y * width].normal.x = crossp[0]
+            vertices[x + y * width].normal.y = crossp[1]
+            vertices[x + y * width].normal.z = crossp[2]
+
+
 
 
 
@@ -223,8 +271,9 @@ if __name__ == "__main__":
     make_height_vertices(vertices, pixelbuffer, width, height)
     base_triangles = make_grid_triangles(columns=width, rows=height)
 
-    compute_triangle_normals()
-    compute_vertex_normals()
+    compute_vertex_normals(vertices=vertices, 
+                           height=height, 
+                           width=width)
 
     #
     # Generate water
