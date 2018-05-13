@@ -20,8 +20,8 @@ def scan_collection(collection, fileregex):
         fname = os.path.basename(fname)
         printToPipe("discovered", 
              collection,
-             fname.split(".")[0],
-             ".".join(fname.split(".")[1:]))
+             ".".join(fname.split(".")[:-1]),
+             ".".join(fname.split(".")[-1:]))
 
 
 

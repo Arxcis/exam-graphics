@@ -8,10 +8,10 @@ from subprocess import call
 in_scale      = 1
 in_assets_path = "assets"
 in_model = "glider"
-in_material = "mat_glider"
-in_texture = ""
-in_shader = "_default"
+in_shader = "glider"
 
+
+call(["pwd"])
 
 def hasUV(mesh):
     if len(mesh.data.tessface_uv_textures) == 0:
@@ -52,7 +52,6 @@ def resolve_mesh_triangles(mesh):
     # @doc https://docs.blender.org/api/blender_python_api_2_67_release/info_gotcha.html#upgrading-exporters-from-2-62 2018-05-09
     mesh.data.update(calc_tessface=True)
 
-    vertexDict = {}
     
     if hasUV(mesh):
         activeUV = mesh.data.tessface_uv_textures.active.data
@@ -142,13 +141,12 @@ mesh: innercube
 material: _default
 shader: _default
 """
-def write_mesh_header(outfile, mesh):
-    global in_material
+def write_mesh_header(outfile, mesh, materialname):
     global in_shader
 
     # 1. Count number of meshes
     outfile.write("\nmesh: {}\n".format(mesh.name))
-    outfile.write("material: mat_{}\n".format(mesh.name))
+    outfile.write("material: {}\n".format(materialname))
     outfile.write("shader: {}\n".format(in_shader))
 
 
@@ -172,23 +170,76 @@ def write_mesh_triangles(outfile, triangles):
         ))
 
 
-def write_material(outfile, mesh):
-    
-    global in_texture
 
-    map_names = []
+
+class Material:
+
+    __slot__ = ['maps', 'values']
+
+    def __init__(self, name, maps, values):
+        self.name = name
+        self.maps = maps
+        self.values = values
+
+
+
+
+def resolve_mesh_material(unique_materials, mesh):
+
+    maps = []
+
+
+    # @TODO
+    # Here we break after the first map is found
+    # We assume that this map is the diffuse map.
+    # The same happens when we write the materials to file
+    # We should find a way to know which texture map is diffuse, and which is
+    # ambient, and then set the appropriate material key. e.g. 'map_diffuse = default.png'
+    #
     if mesh.data.uv_textures.active is not None:
         for tf in mesh.data.uv_textures.active.data:
             if tf.image:
-                if tf.image.name not in map_names:
-                    map_names.append(tf.image.name) 
+                if tf.image.name not in maps:
+                    maps.append(tf.image.name) 
+                    break
 
-    outfile.write("maps: {}\n".format(len(map_names)))
-    for i, name in enumerate(map_names):
-        outfile.write("map_diffuse: {}\n".format(i, name))
+
+    if len(maps) == 0:
+        return "terrain"
+
+    materialkey = ""
+
+    for i, name in enumerate(maps):
+        materialkey += name
         break
 
-    outfile.write("values: 0\n")
+    if unique_materials.get(materialkey) is None:
+        unique_materials[(materialkey)] = Material("mat_" + mesh.name, maps, [])
+
+    return unique_materials[materialkey].name
+
+
+
+def write_material(outfile, material):
+    
+
+    outfile.write("maps: {}\n".format(len(material.maps)));
+
+    # @TODO
+    # Read the resolve_mesh_material function for details...
+    #
+    for texturemap in material.maps:
+        outfile.write("map_diffuse: {}\n"
+            .format( 
+                ".".join(   
+                    texturemap.split(".")[:-1]   
+                ) 
+            )
+        )
+        
+        break
+
+    outfile.write("values: 0\n".format(len(material.values)));
 
 
 
@@ -201,37 +252,42 @@ if __name__ == "__main__":
     # Filter out Meshes
     meshes = [o for o in bpy.data.objects if o.type == "MESH"]
 
-    [print(m) for m in meshes]
+    # [print(m) for m in meshes]
 
     part_meshes_path   = in_assets_path+"/models/"+ in_model +".part_meshes.yml"
     part_vertices_path = in_assets_path+"/models/"+ in_model +".part_vertices.yml"
     full_model_path    = in_assets_path+"/models/"+ in_model + ".yml"
 
 
-    # Open two files, one for vertices and one for triangles
+    # Write meshes with corresponding triangles to temp file
     with open(part_meshes_path, "w") as out_meshes:
 
         write_meshes_header(out_meshes, meshes)
 
-        for mesh in meshes:
-            triangles = resolve_mesh_triangles(mesh)
+        unique_materials = {}
 
-            write_mesh_header(out_meshes, mesh)
+        for mesh in meshes:
+            triangles    = resolve_mesh_triangles(mesh)
+            materialname = resolve_mesh_material(unique_materials, mesh)
+
+            write_mesh_header(out_meshes, mesh, materialname)
             write_mesh_triangles(out_meshes, triangles)
 
-            full_material_path = in_assets_path + "/materials/mat_" + mesh.name + ".yml",
-            with open(full_material_path, "w") as out_material:
-                write_material(out_material, mesh)
+
+
+        for key, mat in unique_materials.items():
+            with open(in_assets_path + "/materials/"+ mat.name+ ".yml", 'w') as matfile:
+                write_material(matfile, mat)
 
 
 
 
-    # Write vertices
+    # Write vertices to temp file
     with open(part_vertices_path, "w") as out_vertices:
         write_vertices(out_vertices, g_vertices)
 
 
-    # COMBINE FILES
+    # COMBINE FILES to final file
     with open(part_vertices_path, "r") as in_vertices:
         with open(part_meshes_path, "r") as in_meshes:
             with open(full_model_path, "w") as out_model:
