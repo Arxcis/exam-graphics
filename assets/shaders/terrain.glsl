@@ -9,7 +9,7 @@ layout(location = 3) in vec4 vertex_color;
 
 out float     frag_Height;
 out vec2      frag_UV;
-flat out vec3 frag_Normal;
+out vec3 frag_Normal;
 
 uniform mat4 m2w;
 
@@ -48,7 +48,7 @@ void main() {
 #define NumberOfDaysInAYear 365
 
 in     float frag_Height;
-flat in vec3 frag_Normal;
+in vec3 frag_Normal;
 in vec2      frag_UV;
 out vec4     out_color;
 
@@ -90,7 +90,7 @@ layout(std140) uniform OK_Times {
 vec3 OK_DirectionalLight(in vec3 lightDir, in vec3 intensities, in vec3 in_normal) 
 {
     //Ambience
-    float ambientStrength = 10;
+    float ambientStrength = 2;
     vec3 ambient = ambientStrength * intensities;
 
 
@@ -99,7 +99,7 @@ vec3 OK_DirectionalLight(in vec3 lightDir, in vec3 intensities, in vec3 in_norma
     float diffusion = max(dot(in_normal, lightDir), 0.0);
     vec3 diffuse = diffusion * intensities;
 
-    return (ambient + 0.01*diffuse);
+    return (ambient + 0.05*diffuse);
 }
 
 

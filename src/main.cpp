@@ -130,7 +130,7 @@ int main(int argc, char** args)
         // 2. Day time in seconds
         if (C::DayRunning) 
         {
-            const auto TimeMultiplier = 10000; // 10k seconds for every second
+            const auto TimeMultiplier = 5000; // 10k seconds for every second
             Scene::times.timeofday_seconds += dt * TimeMultiplier;
         }
 

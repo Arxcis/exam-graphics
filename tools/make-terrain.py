@@ -99,24 +99,84 @@ def make_pixelbuffer(image):
     return pixelbuffer, width, height
 
 
+def cross(v1, v2):
+    return Vec3(v1.y*v2.z - v1.z*v2.y,
+                v1.z*v2.x - v1.x*v2.z,
+                v1.x*v2.y - v1.y*v2.x)
+
+def lenvec3(v):
+    return (v.x*v.x + v.y*v.y + v.z*v.z)**0.5
+
+def normalize(v):
+    length = lenvec3(v)
+    return Vec3(v.x/length, v.y/length, v.z/length)
+
+
+def subvec3(v1,v2):
+    return Vec3(v1.position.x - v2.position.x,
+                v1.position.y - v2.position.y,
+                v1.position.z - v2.position.z)
+
+
+def make_vertex_normals(vertices, columns, rows, meshoffset=0):
+
+
+    for y in range(rows):
+        for x in range(columns):
+
+            
+
+            if x == 0:       
+                left  = (1)       + y * columns
+            else:
+                left  = (x-1)     + y * columns
+
+            
+            if x == columns-1: 
+                right = (columns-2) + y * columns
+            else: 
+                right = (x+1)     + y * columns
+
+
+
+            if y == 0:
+                up =     x + 1     * columns
+            else:
+                up =     x + (y-1) * columns
+
+
+
+            if y == rows-1:
+                down =   x + (rows-2) * columns
+            else:
+                down =   x + (y+1)    * columns
+
+            center = x + y * columns
+
+
+            left_to_right_vector = Vec3( 
+                x = 2/columns, 
+                y = vertices[right].position.y - vertices[left].position.y, 
+                z = 0
+            )
+
+            up_to_down_vector = Vec3(
+                x = 0, 
+                y = vertices[down].position.y - vertices[up].position.y,  
+                z = 2/rows
+            )
+
+
+            crossproduct = cross(up_to_down_vector, left_to_right_vector)
+            normalized_crossproduct = normalize(crossproduct)
+
+            vertices[center].normal = normalized_crossproduct
+
+
+
+
+
 def make_triangles_plus_normals(vertices, columns, rows, meshoffset=0):
-
-    def cross(v1, v2):
-        return Vec3(v1.y*v2.z - v1.z*v2.y,
-                    v1.z*v2.x - v1.x*v2.z,
-                    v1.x*v2.y - v1.y*v2.x)
-
-    def lenvec3(v):
-        return (v.x*v.x + v.y*v.y + v.z*v.z)**0.5
-
-    def normalize(v):
-        length = lenvec3(v)
-        return Vec3(v.x/length, v.y/length, v.z/length)
-
-    def subvec3(v1,v2):
-        return Vec3(v1.position.x - v2.position.x,
-                    v1.position.y - v2.position.y,
-                    v1.position.z - v2.position.z)
 
 
     triangles = []
@@ -132,17 +192,17 @@ def make_triangles_plus_normals(vertices, columns, rows, meshoffset=0):
             c = (y+0) * columns + x + 0 + meshoffset
 
             triangles.append(Triangle(a,b,c))
-
-            # normal - set up cross product
-            v1 = subvec3(vertices[b], vertices[a])
-            v2 = subvec3(vertices[c], vertices[a])
-            
-            crossp = cross(v1, v2)
-            normal = normalize(crossp)
-            vertices[a].normal = normal
-            vertices[b].normal = normal
-            vertices[c].normal = normal
-
+            """
+                        # normal - set up cross product
+                        v1 = subvec3(vertices[b], vertices[a])
+                        v2 = subvec3(vertices[c], vertices[a])
+                        
+                        crossp = cross(v1, v2)
+                        normal = normalize(crossp)
+                        vertices[a].normal = normal
+                        vertices[b].normal = normal
+                        vertices[c].normal = normal
+            """
             # 
             #    /|
             #   / |
@@ -153,17 +213,17 @@ def make_triangles_plus_normals(vertices, columns, rows, meshoffset=0):
             c = (y+0) * columns + x + 1 + meshoffset
 
             triangles.append(Triangle(a,b,c))
-
-            # normal - set up cross product
-            v1 = subvec3(vertices[b], vertices[a])
-            v2 = subvec3(vertices[c], vertices[a])
-            
-            crossp = cross(v1, v2)
-            normal = normalize(crossp)
-            vertices[a].normal = normal
-            vertices[b].normal = normal
-            vertices[c].normal = normal
-
+            """
+                        # normal - set up cross product
+                        v1 = subvec3(vertices[b], vertices[a])
+                        v2 = subvec3(vertices[c], vertices[a])
+                        
+                        crossp = cross(v1, v2)
+                        normal = normalize(crossp)
+                        vertices[a].normal = normal
+                        vertices[b].normal = normal
+                        vertices[c].normal = normal
+            """
 
     return triangles
 
@@ -257,6 +317,9 @@ if __name__ == "__main__":
     pixelbuffer, width, height = make_pixelbuffer(image)
 
     make_height_vertices(vertices, pixelbuffer, width, height)
+
+    make_vertex_normals(vertices=vertices, columns=width, rows=height)
+
     base_triangles = make_triangles_plus_normals(vertices=vertices,
                                                  columns=width, 
                                                  rows=height)
