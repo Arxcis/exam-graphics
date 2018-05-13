@@ -39,44 +39,52 @@ namespace GUI
         }
 
         ImGui::Text("Time Of Day: %02d:%02d", hours, minutes);  // Display some text (you can use a format string too)+
-        ImGui::Text("Time Of Name: %s", timeofday_name.data());  // Display some text (you can use a format string too)+
+        ImGui::Text("It's       : %s", timeofday_name.data());  // Display some text (you can use a format string too)+
     }   
 
     void updateTimeOfYear(float timeofyear_days) 
     {
-        const std::vector<std::string> Months 
+        struct Month
         {
-            "JANUARY",
-            "FEBRUARY",
-            "MARCH",
-            "APRIL",
-            "MAY",
-            "JUNE",
-            "JULY",
-            "AUGUST",
-            "SEPTEMBER",
-            "OCTOBER",
-            "NOVEMBER",
-            "DECEMBER"
+            std::string name;
+            std::string season;
+            int dayCount;
         };
-        const std::vector<int> NumberOfDaysInEachMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+        const auto Months = std::vector<Month> {
+
+            Month{"JANUARY",   "WINTER", 31},
+            Month{"FEBRUARY",  "WINTER", 28},
+            Month{"MARCH",     "SPRING", 31},
+            Month{"APRIL",     "SPRING", 30},
+            Month{"MAY",       "SPRING", 31},
+            Month{"JUNE",      "SUMMER", 30},
+            Month{"JULY",      "SUMMER", 31},
+            Month{"AUGUST",    "SUMMER", 31},
+            Month{"SEPTEMBER", "AUTUMN", 30},
+            Month{"OCTOBER",   "AUTUMN", 31},
+            Month{"NOVEMBER",  "AUTUMN", 30},
+            Month{"DECEMBER",   "WINTER", 31}
+        };
         
+        const int DaysInAYear = 365;
+        
+        int wrapped_timeofyear_days = int(timeofyear_days) % DaysInAYear; 
         int monthCount = 0;
         int dayCount = 0;
-        for (const auto& daysInMonths: NumberOfDaysInEachMonth) 
+        for (const auto& month: Months) 
         {
-            dayCount += daysInMonths;
-            if (dayCount > timeofyear_days) {
+            dayCount += month.dayCount;
+            if (dayCount > wrapped_timeofyear_days) {
                 break;
             }
             monthCount += 1;
         }
 
-
-
-        ImGui::Text("Days of year: %d", int(timeofyear_days));
-        ImGui::Text("Days of month: %d", int(timeofyear_days) - (dayCount - NumberOfDaysInEachMonth[monthCount]));
-        ImGui::Text("Month: %s", Months[monthCount].data());
+        ImGui::Text("Day of year:  %d", int(wrapped_timeofyear_days));
+        ImGui::Text("Day of month: %d", int(wrapped_timeofyear_days) - (dayCount - Months[monthCount].dayCount));
+        ImGui::Text("Month:        %s", Months[monthCount].name.data());
+        ImGui::Text("Season:       %s", Months[monthCount].season.data());
     }
 
     void end()

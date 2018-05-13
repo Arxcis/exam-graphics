@@ -26,19 +26,19 @@ namespace overkill
             glfwSetWindowShouldClose(window, 1);
         }
 
-        // PRESS 1 TO RELOAD ShaderSystem
+        // shift + 1 TO RELOAD ShaderSystem
+        // shift + 2 TO RELOAD MaterialSystem
+        // shift + 3 TO RELOAD ModelSystem
+        // shift + 4 TO RELOAD Scene
         else if(keyCode == GLFW_KEY_1 && mods == ShiftMod) {
             ShaderSystem::reload();
         }
-        // PRESS 2 TO RELOAD MaterialSystem
         else if(keyCode == GLFW_KEY_2 && mods == ShiftMod) {
             MaterialSystem::reload();
         }
-        // PRESS 3 TO RELOAD ModelSystem
         else if(keyCode == GLFW_KEY_3 && mods == ShiftMod) {
             ModelSystem::reload();
         }
-        // PRESS 4 TO RELOAD Scene
         else if(keyCode == GLFW_KEY_4 && mods == ShiftMod) {
             Scene::reload();
         }
