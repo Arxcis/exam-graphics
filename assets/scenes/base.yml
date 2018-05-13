@@ -1,4 +1,4 @@
-cameras: 1
+cameras: 2
 
 camera: maincam
   position: 20 3.5 -48
@@ -10,7 +10,19 @@ camera: maincam
   nearClip: 0.1
   farClip: 4000
 
-entities: 2
+
+camera: glider-cam
+  position: 0 2 7
+  rotation: 0 180 0
+  velocity: 0 0 0
+  angleVelocity: 0 0 0
+  mode: freelook
+  fov: 90
+  nearClip: 0.1
+  farClip: 4000
+
+
+entities: 3
 
 entity: terrain
   model: terrain
@@ -21,14 +33,21 @@ entity: terrain
   angleVelocity: 0 0 0
 
 
-  entity: glider
-    model: glider
+  entity: glider-rig
+    model: null
     position: 20 3 50
-    rotation: -90 0 0
+    rotation: 0 0 0
     scale: .05 .05 .05
     velocity: 0 0 0
     angleVelocity: 0 0 0
 
+  entity: glider-model
+    model: glider
+    position: 0 0 0
+    rotation: -90 0 90
+    scale: 1 1 1
+    velocity: 0 0 0
+    angleVelocity: 0 0 0
 
 
 pointlights: 0
@@ -41,4 +60,15 @@ dirlight: distantSunLight
   intensities: 0.15 0.15 0.1
 
 
-relations: 0
+relations: 3
+
+  glider-model: 0
+  glider-cam: 0
+
+  glider-rig: 2
+    glider-model
+    glider-cam
+
+
+  
+

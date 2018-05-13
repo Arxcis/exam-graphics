@@ -88,9 +88,14 @@ namespace GUI
         ImGui::Text("Season:       %s", Months[monthCount].season.data());
     }
 
+    void writeSpeed(float value) {
+        ImGui::Text ("Speed: %f m/s", value);
+        ImGui::Text ("       %f km/h", value/1000*3600);
+    }
+
     void writeVector(std::string tag, glm::vec3 direction) 
     {
-        ImGui::Text("%s:  \n%f\n%f\n%f", tag.data(), direction.x, direction.y, direction.z);
+       ImGui::Text("%s:\n %f\n %f\n %f", tag.data(), direction.x, direction.y, direction.z);
     }
 
     void end()

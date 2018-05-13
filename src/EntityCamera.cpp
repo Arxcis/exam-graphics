@@ -65,8 +65,8 @@ void EntityCamera::checkInput()
             if (Input::m_keysPressed[Key::I])
             {
                 m_modelSpacePos += glm::vec3(C::PanSensitivity * -glm::sin(m_rotation.y) * glm::cos(m_rotation.x),
-                                        C::PanSensitivity * glm::sin(m_rotation.x), 
-                                        C::PanSensitivity * glm::cos(m_rotation.y) * glm::cos(m_rotation.x));
+                                            C::PanSensitivity * glm::sin(m_rotation.x), 
+                                            C::PanSensitivity * glm::cos(m_rotation.y) * glm::cos(m_rotation.x));
             }
             if (Input::m_keysPressed[Key::K])
             {

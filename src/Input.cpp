@@ -22,7 +22,7 @@ std::vector<bool> Input::m_keysPressed;
  void Input::Init() 
  {
 
-    Input::m_activeKeys.resize(14);
+    Input::m_activeKeys.resize(16);
     Input::m_activeKeys[Key::I] = GLFW_KEY_I;
     Input::m_activeKeys[Key::J] = GLFW_KEY_J;
     Input::m_activeKeys[Key::K] = GLFW_KEY_K;
@@ -41,52 +41,90 @@ std::vector<bool> Input::m_keysPressed;
 
     Input::m_activeKeys[Key::N] = GLFW_KEY_N;
     Input::m_activeKeys[Key::M] = GLFW_KEY_M;
+    Input::m_activeKeys[Key::Comma] = GLFW_KEY_COMMA;
+    Input::m_activeKeys[Key::Period] = GLFW_KEY_PERIOD;
+
+
 
     // Init all keys to false (unpressed)
     Input::m_keysPressed.resize(Input::m_activeKeys.size(), false);
  }
 
 
-    //
-    // @note
-    // Here comes all the key combinations which are required to
-    // pass the exam + some more
-    // -----------------------
-    //  key ESC: quit app
-    //
-    // Time and wheater:
-    //  1: Pick spring
-    //  2: Pick Summer
-    //  3: Pick autumn
-    //  4: Pick Winter
-    //  5: Pause season change
-    //
-    //  6: Pick morning
-    //  7: Pick noon
-    //  8: Pick afternoon
-    //  9: Pick night
-    //  0: Pause daycycle
-    //
-    //  UP:   up tide   percent
-    //  DOWN: down tide percent
-    //
-    // Camera:
-    //   i: + z position 
-    //   k: - z position
-    //   l: + x position
-    //   j: - x position
-    //   y: + y position
-    //   h: - y positon
-    //  space: toggl camera mode [FREELOOK | ORBITAL]
-    //
-    // Visualizations:
-    //  c: countour lines
-    //
-    // Systems:
-    //  shift + 1 TO RELOAD ShaderSystem
-    //  shift + 2 TO RELOAD MaterialSystem
-    //  shift + 3 TO RELOAD ModelSystem
-    //  shift + 4 TO RELOAD Scene + Config file
+
+
+//
+//////////////////////////////////// CONTROLS ///////////////////////////////
+//
+// 
+// --------------------
+//    General:
+// --------------------
+//  ESC: quit app
+//
+//
+// -------------------
+//   Time and weather:
+//  -------------------
+//   1: Pick spring
+//   2: Pick Summer
+//   3: Pick autumn
+//   4: Pick Winter
+//   5: Pause season change
+//
+//   6: Pick morning
+//   7: Pick noon
+//   8: Pick afternoon
+//   9: Pick night
+//   0: Pause daycycle
+//
+//   UP:   up tide   percent
+//   DOWN: down tide percent
+//
+//
+// ------------------------
+//   Camera:
+// ------------------------
+//   i: forward
+//   k: backward
+//   l: right
+//   j: left
+//   y: up
+//   h: down
+//   space: toggl camera mode [FREELOOK | ORBITAL]
+//   tab: cycle through cameras
+//
+// 
+// -----------------------
+//    Glider:
+// -----------------------  
+//    W: pitch down
+//    S: pitch up
+//    A: yaw left
+//    D: yaw right 
+//   
+//    comma:  speed donw
+//    period: speed up  
+//
+//
+// -----------------------
+//    Visualizations:
+// -----------------------
+//   g: toggle grey scale
+//   c: toggle countour lines
+//
+// ---------------------------
+//    Reload of systems:
+// ----------------------------
+//   shift + 1 TO RELOAD ShaderSystem
+//   shift + 2 TO RELOAD MaterialSystem
+//   shift + 3 TO RELOAD ModelSystem
+//   shift + 4 TO RELOAD Scene + Config file
+//
+//
+//////////////////////////////////////////////////////////////////////////////////////
+
+
 
     void Input::OnInputKeyPress(GLFWwindow* window, int keyCode, int /*scanCode*/, int mods)
     {

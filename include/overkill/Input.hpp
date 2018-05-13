@@ -22,7 +22,8 @@ enum Key
     
     W, A, S, D, Q, E, 
 
-    N, M
+    N, M,
+    Comma, Period
 };
 
 

@@ -187,45 +187,73 @@ int main(int argc, char** args)
 void updateGlider(float dt) 
 {
 
-    auto glider = Scene::getEntityByTag("glider");
+    auto glider = Scene::getEntityByTag("glider-rig");
     if (!glider)
         return;
 
+
+
     if (Input::m_keysPressed[Key::W]) {
-        glider->setRotation(glider->getRotation() + glm::vec3(0,1,0));
+       glider->setRotation(glider->getRotation() + glm::vec3(1,0,0));
     }
 
     if (Input::m_keysPressed[Key::S]) {
-        glider->setRotation(glider->getRotation() - glm::vec3(0,1,0));
-
+        glider->setRotation(glider->getRotation() - glm::vec3(1,0,0));
     }
 
 
     if (Input::m_keysPressed[Key::A]) {
-        glider->setRotation(glider->getRotation() + glm::vec3(0,0,1));
+        glider->setRotation(glider->getRotation() + glm::vec3(0,1,0));
     }
 
     if (Input::m_keysPressed[Key::D]) {
-        glider->setRotation(glider->getRotation() - glm::vec3(0,0,1));
+        glider->setRotation(glider->getRotation() - glm::vec3(0,1,0));
     }
 
+    //
+    // update speed
+    //
+    static float currentSpeed = 1.0;
+
+    if (Input::m_keysPressed[Key::Comma]) {
+        currentSpeed -= 1.0 * dt;
+        if (currentSpeed < 0)
+            currentSpeed = 0;
+    }
+    if (Input::m_keysPressed[Key::Period]) {
+        currentSpeed += 1.0 * dt;
+        if (currentSpeed < 0)
+            currentSpeed = 0;
+    }
+
+    
 
 
     //
+    // @hack big as fuck
     // Compute direction
+    // @credits
+    // In coorporation with Jone Martin Skaara
     //
-    auto rotation = glider->getRotation();
+    auto rotation = glm::radians(glider-> getRotation());
+    auto position = glider-> getPosition();
 
-    auto ydirection = glm::vec3(0, cos(rotation.y/180*3.145), sin(rotation.y/180*3.145));
-    auto zdirection = glm::vec3(cos(rotation.z/180*3.145), 0, sin(rotation.z/180*3.145));
-    auto xdirection = glm::vec3(cos(rotation.x/180*3.145),    sin(rotation.x/180*3.145), 0);
 
-    auto totaldirection = ydirection + zdirection + xdirection;
-    auto normaldirection = glm::normalize(totaldirection);
+    auto velocity = glm::vec3( glm::sin(rotation.y),  // forstått
+                               glm::sin(-rotation.x),  // forstått
+                               glm::cos(rotation.y) * glm::cos(rotation.x)); // forstår
 
-    GUI::writeVector("rotation", rotation);
-    GUI::writeVector("direction", normaldirection);
+    velocity *= glm::vec3(currentSpeed);
 
+    glider->setVelocity(velocity);
+
+    //
+    // @end hack
+    //
+
+    GUI::writeSpeed(currentSpeed);
+    GUI::writeVector("velocity", velocity);
+    GUI::writeVector("position", position);
 
 
 }
