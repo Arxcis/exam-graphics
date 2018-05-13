@@ -3,33 +3,48 @@
 
 namespace overkill
 {
-    bool Input::m_leftButtonDown = false;
-    bool Input::m_rightButtonDown = false;
-    
-    float Input::m_fovy = C::FOV;
-    float Input::m_cursorX = 0;
-    float Input::m_cursorY = 0;
-    float Input::m_camRotX = 0;
-    float Input::m_camRotY = 0;
-    float Input::m_camPanX = 0;
-    float Input::m_camPanY = 0;
-    bool  Input::m_navKeyPressed[14] = {
-         false, 
-         false, 
-         false, 
-         false, 
-         false, 
-         false,
-         false, 
-         false, 
-         false, 
-         false, 
-         false, 
-         false,
-         false,
-         false,
-     };
 
+bool Input::m_leftButtonDown = false;
+bool Input::m_rightButtonDown = false;
+
+float Input::m_fovy = C::FOV;
+float Input::m_cursorX = 0;
+float Input::m_cursorY = 0;
+float Input::m_camRotX = 0;
+float Input::m_camRotY = 0;
+float Input::m_camPanX = 0;
+float Input::m_camPanY = 0;
+
+std::vector<int>  Input::m_activeKeys;
+std::vector<bool> Input::m_keysPressed;
+
+
+ void Input::Init() 
+ {
+
+    Input::m_activeKeys.resize(14);
+    Input::m_activeKeys[Key::I] = GLFW_KEY_I;
+    Input::m_activeKeys[Key::J] = GLFW_KEY_J;
+    Input::m_activeKeys[Key::K] = GLFW_KEY_K;
+    Input::m_activeKeys[Key::L] = GLFW_KEY_L;
+
+    Input::m_activeKeys[Key::Y] = GLFW_KEY_Y;
+    Input::m_activeKeys[Key::H] = GLFW_KEY_H;
+
+    Input::m_activeKeys[Key::W] = GLFW_KEY_W;
+    Input::m_activeKeys[Key::S] = GLFW_KEY_S;
+    Input::m_activeKeys[Key::A] = GLFW_KEY_A;
+    Input::m_activeKeys[Key::D] = GLFW_KEY_D;
+
+    Input::m_activeKeys[Key::Q] = GLFW_KEY_Q;
+    Input::m_activeKeys[Key::E] = GLFW_KEY_E;
+
+    Input::m_activeKeys[Key::N] = GLFW_KEY_N;
+    Input::m_activeKeys[Key::M] = GLFW_KEY_M;
+
+    // Init all keys to false (unpressed)
+    Input::m_keysPressed.resize(Input::m_activeKeys.size(), false);
+ }
 
 
     //
@@ -188,48 +203,17 @@ namespace overkill
         }
 
 
-        switch (keyCode)
-        {
-            case GLFW_KEY_I:
-                m_navKeyPressed[I] = true;
-                break;
-            case GLFW_KEY_K:        
-                m_navKeyPressed[K] = true;
-                break;
-            case GLFW_KEY_L:    
-                m_navKeyPressed[L] = true;    
-                break;
-            case GLFW_KEY_J:        
-                m_navKeyPressed[J] = true;
-                break;
-            case GLFW_KEY_Y:        
-                m_navKeyPressed[Y] = true;
-                break;
-            case GLFW_KEY_H:        
-                m_navKeyPressed[H] = true;
-                break;      
-     
-            case GLFW_KEY_N:
-                m_navKeyPressed[N] = true;
-                break;
-            case GLFW_KEY_M:        
-                m_navKeyPressed[M] = true;
-                break;      
-     
+        //
+        // Press down active keys
+        //
+        int count = 0;
+        for (const auto activeKey : m_activeKeys) {
 
-            case GLFW_KEY_W:
-                m_navKeyPressed[W] = true;
-                break;
-            case GLFW_KEY_A:        
-                m_navKeyPressed[A] = true;
-                break;      
-            case GLFW_KEY_S:
-                m_navKeyPressed[S] = true;
-                break;
-            case GLFW_KEY_D:        
-                m_navKeyPressed[D] = true;
-                break;      
-
+            if (keyCode == activeKey) 
+            {
+                m_keysPressed[count] = true;
+            }
+            count++;
         }
     }
 
@@ -242,48 +226,18 @@ namespace overkill
     {
         // LOG_DEBUG("Unpressed %i, as char: %c\n", keyCode, char(keyCode));
 
-        switch (keyCode)
-        {
-            case GLFW_KEY_I:
-                m_navKeyPressed[I] = false;
-                break;
-            case GLFW_KEY_K:        
-                m_navKeyPressed[K] = false;
-                break;
-            case GLFW_KEY_L:    
-                m_navKeyPressed[L] = false;    
-                break;
-            case GLFW_KEY_J:        
-                m_navKeyPressed[J] = false;
-                break;
-            case GLFW_KEY_Y:        
-                m_navKeyPressed[Y] = false;
-                break;
-            case GLFW_KEY_H:        
-                m_navKeyPressed[H] = false;
-                break;      
-     
-            case GLFW_KEY_N:
-                m_navKeyPressed[N] = false;
-                break;
-            case GLFW_KEY_M:        
-                m_navKeyPressed[M] = false;
-                break;      
-     
 
-            case GLFW_KEY_W:
-                m_navKeyPressed[W] = false;
-                break;
-            case GLFW_KEY_A:        
-                m_navKeyPressed[A] = false;
-                break;      
-            case GLFW_KEY_S:
-                m_navKeyPressed[S] = false;
-                break;
-            case GLFW_KEY_D:        
-                m_navKeyPressed[D] = false;
-                break;      
+        //
+        // Unpress active keys
+        //
+        int count = 0;
+        for (const auto activeKey: m_activeKeys) {
 
+            if (keyCode == activeKey) 
+            {
+                m_keysPressed[count] = false;
+            }
+            count++;
         }
     }
 

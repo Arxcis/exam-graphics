@@ -63,6 +63,7 @@ int main(int argc, char** args)
     Init::ImGUI(C::window);
 
     Watcher::pollEvents();
+    Input::Init();
 
     // Load asset subsystems
     TextureSystem::load();
