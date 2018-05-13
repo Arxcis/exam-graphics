@@ -654,7 +654,9 @@ void Scene::load(std::string sceneFile)
         auto entityToGet = std::find_if(m_entities.begin(), m_entities.end(), comp);
         if (entityToGet == m_entities.end())
         {
-            LOG_ERROR("Attempt to find entity that does not exist. Tried to find entity with tag: %s", tag.data());
+            LOG_WARN("Attempt to find entity that does not exist. Tried to find entity with tag: %s", tag.data());
+
+            return nullptr;
         }
         return *entityToGet;
     }

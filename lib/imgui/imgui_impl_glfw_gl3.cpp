@@ -322,7 +322,7 @@ bool ImGui_ImplGlfwGL3_CreateDeviceObjects()
     return true;
 }
 
-void    ImGui_ImplGlfwGL3_InvalidateDeviceObjects()
+void  ImGui_ImplGlfwGL3_InvalidateDeviceObjects()
 {
     if (g_VboHandle) glDeleteBuffers(1, &g_VboHandle);
     if (g_ElementsHandle) glDeleteBuffers(1, &g_ElementsHandle);
@@ -349,7 +349,7 @@ void    ImGui_ImplGlfwGL3_InvalidateDeviceObjects()
 
 static void ImGui_ImplGlfw_InstallCallbacks(GLFWwindow* window)
 {
-  //  glfwSetMouseButtonCallback(window, ImGui_ImplGlfw_MouseButtonCallback);
+  glfwSetMouseButtonCallback(window, ImGui_ImplGlfw_MouseButtonCallback);
   //  glfwSetScrollCallback(window, ImGui_ImplGlfw_ScrollCallback);
   //  glfwSetKeyCallback(window, ImGui_ImplGlfw_KeyCallback);
   //  glfwSetCharCallback(window, ImGui_ImplGlfw_CharCallback);

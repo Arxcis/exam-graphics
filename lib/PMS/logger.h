@@ -139,7 +139,8 @@ log_internal(FILE* file,
 ///     Use for non breaking situations.
 ///////////////////////////////////////////////////////////
 #define LOG_WARN(fmt, ...) \
-log_internal(stderr, "WARN", LOG_COLOR_FG_YELLOW, __FILE__, __func__, __LINE__, fmt, ##__VA_ARGS__);
+log_internal(stderr, "WARN", LOG_COLOR_FG_YELLOW, __FILE__, __func__, __LINE__, fmt, ##__VA_ARGS__);\
+std::cin.get();
 
 ///////////////////////////////////////////////////////////
 /// \brief

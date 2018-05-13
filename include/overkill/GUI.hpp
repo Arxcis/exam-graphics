@@ -7,6 +7,7 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw_gl3.h>
 
+#include <glm/glm.hpp>
 
 namespace GUI
     
@@ -85,6 +86,11 @@ namespace GUI
         ImGui::Text("Day of month: %d", int(wrapped_timeofyear_days) - (dayCount - Months[monthCount].dayCount));
         ImGui::Text("Month:        %s", Months[monthCount].name.data());
         ImGui::Text("Season:       %s", Months[monthCount].season.data());
+    }
+
+    void writeVector(std::string tag, glm::vec3 direction) 
+    {
+        ImGui::Text("%s:  \n%f\n%f\n%f", tag.data(), direction.x, direction.y, direction.z);
     }
 
     void end()

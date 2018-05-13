@@ -1,8 +1,8 @@
 cameras: 1
 
 camera: maincam
-  position: 0 10 0
-  rotation: 0 -90 0
+  position: 20 3.5 -48
+  rotation: 0 -180 0
   velocity: 0 0 0
   angleVelocity: 0 0 0
   mode: freelook
@@ -10,7 +10,7 @@ camera: maincam
   nearClip: 0.1
   farClip: 4000
 
-entities: 1
+entities: 2
 
 entity: terrain
   model: terrain
@@ -19,6 +19,17 @@ entity: terrain
   scale: 50 5 100
   velocity: 0 0 0
   angleVelocity: 0 0 0
+
+
+  entity: glider
+    model: glider
+    position: 20 3 50
+    rotation: -90 0 0
+    scale: .05 .05 .05
+    velocity: 0 0 0
+    angleVelocity: 0 0 0
+
+
 
 pointlights: 0
 

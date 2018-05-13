@@ -40,6 +40,8 @@
 using namespace overkill;
 
 
+void updateGlider(float dt);
+
 
 int main(int argc, char** args)
 {
@@ -95,8 +97,14 @@ int main(int argc, char** args)
     for(;;)
     {
 
-        t = (float)glfwGetTime();
-        
+        //
+        // RENDER GUI
+        //
+        GUI::begin();
+
+
+
+        t = (float)glfwGetTime();        
 
         dt = t - oldT;
 
@@ -106,7 +114,6 @@ int main(int argc, char** args)
 
         Renderer::clear();
         Scene::update(dt);
-        
 
         // Draws all the models in the scene.
         Scene::draw(t);     
@@ -141,12 +148,12 @@ int main(int argc, char** args)
         //Renderer::draw(ModelSystem::getById(0), camPosDebugM2W, t);
 
  
-        //
-        // RENDER GUI
-        //
-        GUI::begin();
+
         GUI::updateTimeOfDay(Scene::times.timeofday_seconds);
         GUI::updateTimeOfYear(Scene::times.timeofyear_days);
+        
+        updateGlider(dt);
+
         GUI::end();
 
         //
@@ -172,4 +179,53 @@ int main(int argc, char** args)
     glfwDestroyWindow(C::window);
     glfwTerminate();
 	return 0;
+}
+
+
+
+
+void updateGlider(float dt) 
+{
+
+    auto glider = Scene::getEntityByTag("glider");
+    if (!glider)
+        return;
+
+    if (Input::m_keysPressed[Key::W]) {
+        glider->setRotation(glider->getRotation() + glm::vec3(0,1,0));
+    }
+
+    if (Input::m_keysPressed[Key::S]) {
+        glider->setRotation(glider->getRotation() - glm::vec3(0,1,0));
+
+    }
+
+
+    if (Input::m_keysPressed[Key::A]) {
+        glider->setRotation(glider->getRotation() + glm::vec3(0,0,1));
+    }
+
+    if (Input::m_keysPressed[Key::D]) {
+        glider->setRotation(glider->getRotation() - glm::vec3(0,0,1));
+    }
+
+
+
+    //
+    // Compute direction
+    //
+    auto rotation = glider->getRotation();
+
+    auto ydirection = glm::vec3(0, cos(rotation.y/180*3.145), sin(rotation.y/180*3.145));
+    auto zdirection = glm::vec3(cos(rotation.z/180*3.145), 0, sin(rotation.z/180*3.145));
+    auto xdirection = glm::vec3(cos(rotation.x/180*3.145),    sin(rotation.x/180*3.145), 0);
+
+    auto totaldirection = ydirection + zdirection + xdirection;
+    auto normaldirection = glm::normalize(totaldirection);
+
+    GUI::writeVector("rotation", rotation);
+    GUI::writeVector("direction", normaldirection);
+
+
+
 }
