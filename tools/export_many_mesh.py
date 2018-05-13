@@ -65,10 +65,7 @@ def resolve_mesh_triangles(mesh):
             position = mesh.data.vertices[vertIndex].co
             position = unpackVec3(position)
 
-            if is_smooth:
-                normal = mesh.data.vertices[vertIndex].normal
-            else:
-                normal = face.normal
+            normal = mesh.data.vertices[vertIndex].normal
             normal = unpackVec3(normal)
 
             if hasUV(mesh):
