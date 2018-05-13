@@ -24,6 +24,24 @@ camera: glider-cam
 
 entities: 3
 
+
+
+entity: glider-rig
+  model: null
+  position: 20 3 50
+  rotation: 0 0 0
+  scale: .05 .05 .05
+  velocity: 0 0 0
+  angleVelocity: 0 0 0
+
+entity: glider-model
+  model: glider
+  position: 0 0 0
+  rotation: -90 0 90
+  scale: 1 1 1
+  velocity: 0 0 0
+  angleVelocity: 0 0 0
+
 entity: terrain
   model: terrain
   position: 0 0 0
@@ -32,22 +50,6 @@ entity: terrain
   velocity: 0 0 0
   angleVelocity: 0 0 0
 
-
-  entity: glider-rig
-    model: null
-    position: 20 3 50
-    rotation: 0 0 0
-    scale: .05 .05 .05
-    velocity: 0 0 0
-    angleVelocity: 0 0 0
-
-  entity: glider-model
-    model: glider
-    position: 0 0 0
-    rotation: -90 0 90
-    scale: 1 1 1
-    velocity: 0 0 0
-    angleVelocity: 0 0 0
 
 
 pointlights: 0

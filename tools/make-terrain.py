@@ -183,6 +183,10 @@ def make_triangles_plus_normals(vertices, columns, rows, meshoffset=0):
     for y in range(rows-1):
         for x in range(columns-1):
 
+            #
+            # COMPUTE
+            #
+
             # ____
             # |  /
             # | /
@@ -225,6 +229,7 @@ def make_triangles_plus_normals(vertices, columns, rows, meshoffset=0):
                         vertices[c].normal = normal
             """
 
+
     return triangles
 
 
@@ -234,6 +239,8 @@ def make_triangles_plus_normals(vertices, columns, rows, meshoffset=0):
 
 
 def write_vertices(outfile, vertices):
+
+
     # write vertices
     outfile.write("vertices: {}\n".format(len(vertices)))
     for vert in vertices:
@@ -251,6 +258,7 @@ def write_vertices(outfile, vertices):
                         vert.color.b,
                         vert.color.a))
 
+
 # Example:
 """
 triangles: 5566
@@ -260,6 +268,8 @@ t: 6 5 4
 .......
 """
 def write_mesh(outfile, triangles, name):
+
+
     outfile.write("mesh: {}\n".format(name))
     outfile.write("material: {}\n".format(name))
     outfile.write("shader: {}\n".format(name))
@@ -271,6 +281,7 @@ def write_mesh(outfile, triangles, name):
             tri.b,
             tri.c
         ))
+
 
 
 
@@ -294,12 +305,13 @@ def make_water_vertices(vertices, columns, rows, startheight, alpha):
                                    a = alpha)))
 
 
+import time
 
 
 if __name__ == "__main__":
 
 
-    in_heightmap_path = "resources/ExamResources/heightmap/height100.png"
+    in_heightmap_path = "resources/ExamResources/heightmap/height50.png"
     in_assets_path = "assets"
 
     try:
@@ -316,17 +328,70 @@ if __name__ == "__main__":
     #
     pixelbuffer, width, height = make_pixelbuffer(image)
 
+
+
+    print("\nHeightmap pixels: ", width * height)
+
+
+
+
+
+
+
+    print("\nGenerating terrain vertices.. ")
+    start = time.time()
+    
     make_height_vertices(vertices, pixelbuffer, width, height)
 
+    end = time.time()
+    print("Finished in time: ", end - start, "s")
+
+
+
+
+
+
+
+    print("\nGenerating terrain normals.. ")
+    start = time.time()
+
     make_vertex_normals(vertices=vertices, columns=width, rows=height)
+
+
+    end = time.time()
+    print("Finished in time: ", end - start, "s")
+
+
+
+
+
+
+
+    print("\nGenerating terrain triangles.. ")
+    start = time.time()
 
     base_triangles = make_triangles_plus_normals(vertices=vertices,
                                                  columns=width, 
                                                  rows=height)
 
+
+    end = time.time()
+    print("Finished in time: ", end - start, "s")
+
+
+
+
+
+
+
+
     #
     # Generate water
     # 
+    print("\nGenerating water vertices.. ")
+    start = time.time()
+
+
     meshoffset = len(vertices)
     make_water_vertices(vertices=vertices, 
                         columns=100, 
@@ -334,19 +399,47 @@ if __name__ == "__main__":
                         startheight=0.1,
                         alpha=100)
 
+
+    end = time.time()
+    print("Finished in time: ", end - start, "s")
+
+
+
+
+
+
+
+    print("\nGenerating water triangles.. ")
+    start = time.time()
+
+
+
     water_triangle = make_triangles_plus_normals(vertices=vertices, 
                                          columns=100, 
                                          rows=100, 
                                          meshoffset=meshoffset)
 
 
+    end = time.time()
+    print("Finished in time: ", end - start, "s")
 
     #
     # Write to file
     #
+
+    print("\nWriting everything to file.. ")
+    start = time.time()
+
+
+
     with open(in_assets_path + "/models/terrain.yml", "w") as terrainfile:
 
         write_vertices(terrainfile, vertices)
         terrainfile.write("meshes: 2\n")
         write_mesh(terrainfile, base_triangles, "terrain")
         write_mesh(terrainfile, water_triangle, "water")
+
+
+
+    end = time.time()
+    print("Finished in time: ", end - start, "s")
