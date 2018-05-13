@@ -18,7 +18,7 @@ namespace overkill
 
 enum NavigationKey
 {
-    W, A, S, D, Q, E
+    I, K, J, L, Y, H, N, M, W, A, S, D, Q, E
 };
 
 
@@ -37,7 +37,7 @@ public:
     static float m_camRotY;
     static float m_camPanX;        // Factor camera uses for its position/orientation.
     static float m_camPanY;
-    static bool m_navKeyPressed[6];// Which navigation keys are pressed. WASD-QE keys.
+    static bool m_navKeyPressed[14];// Which navigation keys are pressed. WASD-QE keys.
 
     static void OnInputKeyPress(GLFWwindow* window, int keyCode, int scanCode, int mods);
     static void OnInputKeyHold(GLFWwindow* window, int keyCode, int scanCode, int mods);

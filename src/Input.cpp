@@ -13,7 +13,65 @@ namespace overkill
     float Input::m_camRotY = 0;
     float Input::m_camPanX = 0;
     float Input::m_camPanY = 0;
-    bool Input::m_navKeyPressed[] = {false, false, false, false, false, false}; // Which navigation keys are pressed. WASD-QE keys.
+    bool  Input::m_navKeyPressed[14] = {
+         false, 
+         false, 
+         false, 
+         false, 
+         false, 
+         false,
+         false, 
+         false, 
+         false, 
+         false, 
+         false, 
+         false,
+         false,
+         false,
+     };
+
+
+
+    //
+    // @note
+    // Here comes all the key combinations which are required to
+    // pass the exam + some more
+    // -----------------------
+    //  key ESC: quit app
+    //
+    // Time and wheater:
+    //  1: Pick spring
+    //  2: Pick Summer
+    //  3: Pick autumn
+    //  4: Pick Winter
+    //  5: Pause season change
+    //
+    //  6: Pick morning
+    //  7: Pick noon
+    //  8: Pick afternoon
+    //  9: Pick night
+    //  0: Pause daycycle
+    //
+    //  UP:   up tide   percent
+    //  DOWN: down tide percent
+    //
+    // Camera:
+    //   i: + z position 
+    //   k: - z position
+    //   l: + x position
+    //   j: - x position
+    //   y: + y position
+    //   h: - y positon
+    //  space: toggl camera mode [FREELOOK | ORBITAL]
+    //
+    // Visualizations:
+    //  c: countour lines
+    //
+    // Systems:
+    //  shift + 1 TO RELOAD ShaderSystem
+    //  shift + 2 TO RELOAD MaterialSystem
+    //  shift + 3 TO RELOAD ModelSystem
+    //  shift + 4 TO RELOAD Scene + Config file
 
     void Input::OnInputKeyPress(GLFWwindow* window, int keyCode, int /*scanCode*/, int mods)
     {
@@ -26,10 +84,8 @@ namespace overkill
             glfwSetWindowShouldClose(window, 1);
         }
 
-        // shift + 1 TO RELOAD ShaderSystem
-        // shift + 2 TO RELOAD MaterialSystem
-        // shift + 3 TO RELOAD ModelSystem
-        // shift + 4 TO RELOAD Scene
+
+
         else if(keyCode == GLFW_KEY_1 && mods == ShiftMod) {
             ShaderSystem::reload();
         }
@@ -42,38 +98,6 @@ namespace overkill
         else if(keyCode == GLFW_KEY_4 && mods == ShiftMod) {
             Scene::reload();
         }
-        else if (keyCode == GLFW_KEY_C) {
-
-            LOG_INFO("TOGGLING");
-
-            ModelSystem::toggleShader("terrain",
-                                      "terrain",
-                                      "terrain",
-                                      "contour");
-
-        }
-
-
-        //
-        // @note
-        // Here comes all the key combinations which are required to
-        // pass the exam.
-        // -----------------------
-        //  key 1: Pick spring
-        //  key 2: Pick Summer
-        //  key 3: Pick autumn
-        //  Key 4: Pick Winter
-        //  Key 5: Pause season change
-        //
-        //  Key 6: Pick morning
-        //  Key 7: Pick noon
-        //  Key 8: Pick afternoon
-        //  Key 9: Pick night
-        //  Key 0: Pause daycycle
-        //
-
-        // Key ,: up tide   percent
-        // Key .: down tide percent 
 
         else if(keyCode == GLFW_KEY_1) {
             const float MidSpringInDays = DaysInAMonth*4;
@@ -152,26 +176,60 @@ namespace overkill
         }
 
 
+        else if (keyCode == GLFW_KEY_C) {
+
+            LOG_INFO("TOGGLING");
+
+            ModelSystem::toggleShader("terrain",
+                                      "terrain",
+                                      "terrain",
+                                      "contour");
+
+        }
+
+
         switch (keyCode)
         {
-            case GLFW_KEY_W:        
+            case GLFW_KEY_I:
+                m_navKeyPressed[I] = true;
+                break;
+            case GLFW_KEY_K:        
+                m_navKeyPressed[K] = true;
+                break;
+            case GLFW_KEY_L:    
+                m_navKeyPressed[L] = true;    
+                break;
+            case GLFW_KEY_J:        
+                m_navKeyPressed[J] = true;
+                break;
+            case GLFW_KEY_Y:        
+                m_navKeyPressed[Y] = true;
+                break;
+            case GLFW_KEY_H:        
+                m_navKeyPressed[H] = true;
+                break;      
+     
+            case GLFW_KEY_N:
+                m_navKeyPressed[N] = true;
+                break;
+            case GLFW_KEY_M:        
+                m_navKeyPressed[M] = true;
+                break;      
+     
+
+            case GLFW_KEY_W:
                 m_navKeyPressed[W] = true;
-                break;
-            case GLFW_KEY_S:        
-                m_navKeyPressed[S] = true;
-                break;
-            case GLFW_KEY_D:        
-                m_navKeyPressed[D] = true;    
                 break;
             case GLFW_KEY_A:        
                 m_navKeyPressed[A] = true;
-                break;
-            case GLFW_KEY_Q:        
-                m_navKeyPressed[Q] = true;
-                break;
-            case GLFW_KEY_E:        
-                m_navKeyPressed[E] = true;
                 break;      
+            case GLFW_KEY_S:
+                m_navKeyPressed[S] = true;
+                break;
+            case GLFW_KEY_D:        
+                m_navKeyPressed[D] = true;
+                break;      
+
         }
     }
 
@@ -186,24 +244,46 @@ namespace overkill
 
         switch (keyCode)
         {
+            case GLFW_KEY_I:
+                m_navKeyPressed[I] = false;
+                break;
+            case GLFW_KEY_K:        
+                m_navKeyPressed[K] = false;
+                break;
+            case GLFW_KEY_L:    
+                m_navKeyPressed[L] = false;    
+                break;
+            case GLFW_KEY_J:        
+                m_navKeyPressed[J] = false;
+                break;
+            case GLFW_KEY_Y:        
+                m_navKeyPressed[Y] = false;
+                break;
+            case GLFW_KEY_H:        
+                m_navKeyPressed[H] = false;
+                break;      
+     
+            case GLFW_KEY_N:
+                m_navKeyPressed[N] = false;
+                break;
+            case GLFW_KEY_M:        
+                m_navKeyPressed[M] = false;
+                break;      
+     
+
             case GLFW_KEY_W:
                 m_navKeyPressed[W] = false;
                 break;
+            case GLFW_KEY_A:        
+                m_navKeyPressed[A] = false;
+                break;      
             case GLFW_KEY_S:
                 m_navKeyPressed[S] = false;
                 break;
-            case GLFW_KEY_D:
-                m_navKeyPressed[D] = false;    
-                break;
-            case GLFW_KEY_A:
-                m_navKeyPressed[A] = false;
-                break;
-            case GLFW_KEY_Q:
-                m_navKeyPressed[Q] = false;
-                break;
-            case GLFW_KEY_E:
-                m_navKeyPressed[E] = false;
-                break;
+            case GLFW_KEY_D:        
+                m_navKeyPressed[D] = false;
+                break;      
+
         }
     }
 

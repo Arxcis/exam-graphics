@@ -62,62 +62,62 @@ void EntityCamera::checkInput()
     switch (m_cameraMode)
     {
         case FREELOOK:
-            if (Input::m_navKeyPressed[W])
+            if (Input::m_navKeyPressed[I])
             {
                 m_modelSpacePos += glm::vec3(C::PanSensitivity * -glm::sin(m_rotation.y) * glm::cos(m_rotation.x),
                                         C::PanSensitivity * glm::sin(m_rotation.x), 
                                         C::PanSensitivity * glm::cos(m_rotation.y) * glm::cos(m_rotation.x));
             }
-            if (Input::m_navKeyPressed[S])
+            if (Input::m_navKeyPressed[K])
             {
                 m_modelSpacePos += glm::vec3(C::PanSensitivity * glm::sin(m_rotation.y) * glm::cos(m_rotation.x),
                                         C::PanSensitivity * -glm::sin(m_rotation.x), 
                                         C::PanSensitivity * -glm::cos(m_rotation.y) * glm::cos(m_rotation.x));
             }
-            if (Input::m_navKeyPressed[D])
+            if (Input::m_navKeyPressed[L])
             {
                 m_modelSpacePos += glm::vec3(C::PanSensitivity * glm::cos(m_rotation.y) * glm::cos(m_rotation.x),
                                         0, 
                                         C::PanSensitivity * glm::sin(m_rotation.y) * glm::cos(m_rotation.x));        
             }
-            if (Input::m_navKeyPressed[A])
+            if (Input::m_navKeyPressed[J])
             {
                 m_modelSpacePos += glm::vec3(-C::PanSensitivity * glm::cos(m_rotation.y) * glm::cos(m_rotation.x),
                                         0, 
                                         -C::PanSensitivity * glm::sin(m_rotation.y) * glm::cos(m_rotation.x));
             }
-            if (Input::m_navKeyPressed[Q])
+            if (Input::m_navKeyPressed[H])
             {
                 m_modelSpacePos += glm::vec3(0, -C::PanSensitivity, 0);
             }
-            if (Input::m_navKeyPressed[E])
+            if (Input::m_navKeyPressed[Y])
             {
                 m_modelSpacePos += glm::vec3(0, C::PanSensitivity, 0);
             }
             break;
 
         case ORBITAL:
-            if (Input::m_navKeyPressed[W])
+            if (Input::m_navKeyPressed[I])
             {
                 m_modelSpacePos += glm::vec3(0, 0, C::PanSensitivity);
             }
-            if (Input::m_navKeyPressed[S])
+            if (Input::m_navKeyPressed[K])
             {
                 m_modelSpacePos += glm::vec3(0, 0, -C::PanSensitivity);
             }
-            if (Input::m_navKeyPressed[D])
+            if (Input::m_navKeyPressed[L])
             {
                 m_modelSpacePos += glm::vec3(C::PanSensitivity, 0, 0);
             }
-            if (Input::m_navKeyPressed[A])
+            if (Input::m_navKeyPressed[J])
             {
                 m_modelSpacePos += glm::vec3(-C::PanSensitivity, 0, 0);
             }
-            if (Input::m_navKeyPressed[Q])
+            if (Input::m_navKeyPressed[H])
             {
                 m_modelSpacePos += glm::vec3(0, -C::PanSensitivity, 0);
             }
-            if (Input::m_navKeyPressed[E])
+            if (Input::m_navKeyPressed[Y])
             {
                 m_modelSpacePos += glm::vec3(0, C::PanSensitivity, 0);
             }
