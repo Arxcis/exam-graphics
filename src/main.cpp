@@ -288,8 +288,8 @@ void updateGlider(float dt)
     // It should do this by default if the scene graph is set up properly.
     // We should not have to explicitly set the velocity.
     auto rotation = glm::radians(glider-> getRotation());
-    auto velocity = glm::vec3( glm::sin(rotation.y),  // forstått
-                               glm::sin(-rotation.x),  // forstått
+    auto velocity = glm::vec3( glm::sin(rotation.y * glm::cos(rotation.x)),  // forstått
+                               glm::sin(-rotation.x),                       // forstått
                                glm::cos(rotation.y) * glm::cos(rotation.x)); // forstår
 
     velocity *= glm::vec3(currentSpeed);
