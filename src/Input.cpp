@@ -22,7 +22,7 @@ std::vector<bool> Input::m_keysPressed;
  void Input::Init() 
  {
 
-    Input::m_activeKeys.resize(16);
+    Input::m_activeKeys.resize(18);
     Input::m_activeKeys[Key::I] = GLFW_KEY_I;
     Input::m_activeKeys[Key::J] = GLFW_KEY_J;
     Input::m_activeKeys[Key::K] = GLFW_KEY_K;
@@ -43,6 +43,8 @@ std::vector<bool> Input::m_keysPressed;
     Input::m_activeKeys[Key::M] = GLFW_KEY_M;
     Input::m_activeKeys[Key::Comma] = GLFW_KEY_COMMA;
     Input::m_activeKeys[Key::Period] = GLFW_KEY_PERIOD;
+    Input::m_activeKeys[Key::F] = GLFW_KEY_F;
+    Input::m_activeKeys[Key::R] = GLFW_KEY_R;
 
 
 
@@ -104,7 +106,8 @@ std::vector<bool> Input::m_keysPressed;
 //    D: yaw right 
 //   
 //    comma:  speed donw
-//    period: speed up  
+//    period: speed up
+//     - : lock camera behind glider
 //
 //
 // -----------------------
@@ -199,13 +202,13 @@ std::vector<bool> Input::m_keysPressed;
         }
 
         else if (keyCode == GLFW_KEY_UP) {
-
             Scene::times.timeoftide_percent += 3;
         }
 
         else if (keyCode == GLFW_KEY_DOWN) {
             Scene::times.timeoftide_percent -= 3;
         }
+
 
 
         // PRESS SPACE to toggle camera mode

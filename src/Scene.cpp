@@ -668,7 +668,7 @@ void Scene::load(std::string sceneFile)
 
     void Scene::cycleCameras()
     {
-        m_activeCamera = (EntityCamera*) m_entities[(m_activeCamera->getEntityID() + 1) % m_cameraCount];
+        m_activeCamera = (EntityCamera*) m_entities[(m_activeCamera->getEntityID() + 1) % m_cameraCount];        
     }
 
 
@@ -691,7 +691,6 @@ void Scene::load(std::string sceneFile)
         Scene::m_matrixBuffer.update(m_projectionGLindex,
                               sizeof(CameraTransform),
                               &(m_activeCamera -> m_cameraTransform));
-
 
 
         // Buffer times data

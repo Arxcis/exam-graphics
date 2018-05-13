@@ -8,7 +8,7 @@ camera: maincam
   mode: freelook
   fov: 90
   nearClip: 0.1
-  farClip: 4000
+  farClip: 40000
 
 
 camera: glider-cam
@@ -19,7 +19,7 @@ camera: glider-cam
   mode: freelook
   fov: 90
   nearClip: 0.1
-  farClip: 4000
+  farClip: 40000
 
 
 entities: 3
@@ -28,7 +28,7 @@ entity: terrain
   model: terrain
   position: 0 0 0
   rotation: 0 0 0
-  scale: 50 5 100
+  scale: 250 5 500
   velocity: 0 0 0
   angleVelocity: 0 0 0
 

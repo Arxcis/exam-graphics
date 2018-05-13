@@ -88,6 +88,12 @@ namespace GUI
         ImGui::Text("Season:       %s", Months[monthCount].season.data());
     }
 
+
+    void updateTimeOfTide(float timeoftide) 
+    {
+        ImGui::Text("Tide height: %f %", timeoftide);
+    }
+
     void writeSpeed(float value) {
         ImGui::Text ("Speed: %f m/s", value);
         ImGui::Text ("       %f km/h", value/1000*3600);

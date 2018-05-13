@@ -148,9 +148,9 @@ int main(int argc, char** args)
         //Renderer::draw(ModelSystem::getById(0), camPosDebugM2W, t);
 
  
-
         GUI::updateTimeOfDay(Scene::times.timeofday_seconds);
         GUI::updateTimeOfYear(Scene::times.timeofyear_days);
+        GUI::updateTimeOfTide(Scene::times.timeoftide_percent);
         
         updateGlider(dt);
 
@@ -211,7 +211,7 @@ void updateGlider(float dt)
     }
 
     //
-    // update speed
+    // Update current speed
     //
     static float currentSpeed = 1.0;
 
@@ -226,19 +226,68 @@ void updateGlider(float dt)
             currentSpeed = 0;
     }
 
+    static bool F_keyIsDown = false;
+    static bool R_keyIsDown = false;
+    static int currentStartPoisitionIndex = 0;
+
+    const std::vector<std::string> possibleStartPositionNames = 
+    {
+        "Lillehammer",
+        "Gjøvik",
+        "Hamar",
+    };
+    const std::vector<glm::vec3> possibleStartPositions = 
+    {
+        glm::vec3(18, 3, 46),
+        glm::vec3(65, 3, 263),
+        glm::vec3(173, 3, 255)
+    };
+
+    //
+    // Cycle between glider start positions
+    //
+    if (Input::m_keysPressed[Key::F] && !F_keyIsDown) {
+        F_keyIsDown = true;
+
+        currentStartPoisitionIndex = ++currentStartPoisitionIndex % possibleStartPositions.size();
+        LOG_DEBUG("current start position index: %d", currentStartPoisitionIndex);
+
+        glider->setPosition( possibleStartPositions[currentStartPoisitionIndex] );
+    }
+    else if (!Input::m_keysPressed[Key::F] && F_keyIsDown) {
+        F_keyIsDown = false;
+    }
+
+
+    //
+    // Reset to current glider start position
+    //
+    if (Input::m_keysPressed[Key::R] && !R_keyIsDown) {
+        R_keyIsDown = true;
+
+        LOG_DEBUG("current start position index: %d", currentStartPoisitionIndex);
+
+        glider->setPosition( possibleStartPositions[currentStartPoisitionIndex] );
+    }
+    else if (!Input::m_keysPressed[Key::R] && R_keyIsDown) {
+        R_keyIsDown = false;
+    }
+
     
 
 
+
     //
-    // @hack big as fuck
-    // Compute direction
-    // @credits
+    // @begin hack
+    //
+    // Compute velocity
     // In coorporation with Jone Martin Skaara
     //
+    // Why is this a hack you may ask?
+    // Because actually we just want the glider to go in the direction it is facing.
+    // It should do this by default if the scene graph is set up properly.
+    // We should not have to explicitly set the velocity.
     auto rotation = glm::radians(glider-> getRotation());
-    auto position = glider-> getPosition();
-
-
     auto velocity = glm::vec3( glm::sin(rotation.y),  // forstått
                                glm::sin(-rotation.x),  // forstått
                                glm::cos(rotation.y) * glm::cos(rotation.x)); // forstår
@@ -246,14 +295,13 @@ void updateGlider(float dt)
     velocity *= glm::vec3(currentSpeed);
 
     glider->setVelocity(velocity);
-
     //
     // @end hack
     //
 
+
     GUI::writeSpeed(currentSpeed);
     GUI::writeVector("velocity", velocity);
-    GUI::writeVector("position", position);
-
-
+    GUI::writeVector("position", glider-> getPosition());
+    ImGui::Text("Started from %s!", possibleStartPositionNames[currentStartPoisitionIndex].data());
 }
