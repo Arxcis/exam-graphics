@@ -46,7 +46,7 @@ entity: terrain
   model: terrain
   position: 0 0 0
   rotation: 0 0 0
-  scale: 250 5 500
+  scale: 250 15 500
   velocity: 0 0 0
   angleVelocity: 0 0 0
 

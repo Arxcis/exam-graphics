@@ -116,7 +116,7 @@ vec3 OK_DirectionalLight(in vec3 lightDirection, in vec3 intensities)
     vec3 viewDirection    = normalize(view_position.xyz - frag_Position.xyz);
     vec3 reflectDirection = reflect(-lightDirection, normalize(frag_Normal));
 
-    float specularPower   = pow(max(dot(viewDirection, reflectDirection), 0.0), 64);
+    float specularPower   = pow(max(dot(viewDirection, reflectDirection), 0.0), 32);
     vec3  specular        = specularScale * specularPower * intensities;
 
     return (ambient + diffuse + specular);

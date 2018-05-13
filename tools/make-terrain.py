@@ -81,13 +81,17 @@ def make_height_vertices(vertices, pixelbuffer, width, height):
             y = pixelbuffer[x + z * width]
 
             vertices.append(
-                Vertex(position=Vec3(x=x/float(width), 
-                                     y=y/255.0,
-                                     z=z/float(height)),
+                Vertex(
+                    position=Vec3(x=x/float(width), 
+                        y=y/255.0,
+                        z=z/float(height)),
 
-                       texcoord=Texcoord(
-                                     u=x/float(width), 
-                                     v=z/float(height))))
+                    texcoord=Texcoord(
+                        u=x/float(width), 
+                        v=z/float(height)
+                    )
+                )
+            )
 
 
 
@@ -292,17 +296,30 @@ def make_water_vertices(vertices, columns, rows, startheight, alpha):
     for z in range(rows):
         for x in range(columns):
             vertices.append(
-                Vertex(position=Vec3(x = x/float(columns), 
-                                     y = startheight, 
-                                     z = z/float(rows)),
+                Vertex(
+                    position=Vec3(
+                        x = x/float(columns), 
+                        y = startheight, 
+                        z = z/float(rows)
+                    ),
+                    normal = Vec3(
+                        0,
+                        1,
+                        0
+                    ),
 
-                       texcoord=Texcoord(u = x/float(columns),
-                                         v = z/float(rows)),
-
-                       color=Color(r = 0,
-                                   g = 0,
-                                   b = 255, 
-                                   a = alpha)))
+                    texcoord=Texcoord(
+                        u = x/float(columns),
+                        v = z/float(rows)
+                    ),
+                    color = Color(
+                        r = random.randint(0,255),
+                        g = random.randint(0,255),
+                        b = random.randint(0,255),
+                        a = alpha
+                    )
+                )
+            )
 
 
 import time
@@ -311,7 +328,7 @@ import time
 if __name__ == "__main__":
 
 
-    in_heightmap_path = "resources/ExamResources/heightmap/height50.png"
+    in_heightmap_path = "resources/ExamResources/heightmap/height100.png"
     in_assets_path = "assets"
 
     try:
@@ -388,14 +405,17 @@ if __name__ == "__main__":
     #
     # Generate water
     # 
+    columns = 400
+    rows    = 800
+
     print("\nGenerating water vertices.. ")
     start = time.time()
 
 
     meshoffset = len(vertices)
     make_water_vertices(vertices=vertices, 
-                        columns=100, 
-                        rows=100, 
+                        columns=columns, 
+                        rows=rows, 
                         startheight=0.1,
                         alpha=100)
 
@@ -415,13 +435,15 @@ if __name__ == "__main__":
 
 
     water_triangle = make_triangles_plus_normals(vertices=vertices, 
-                                         columns=100, 
-                                         rows=100, 
+                                         columns=columns, 
+                                         rows=rows, 
                                          meshoffset=meshoffset)
+
 
 
     end = time.time()
     print("Finished in time: ", end - start, "s")
+
 
     #
     # Write to file
