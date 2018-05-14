@@ -1,7 +1,7 @@
 cameras: 2
 
 camera: maincam
-  position: 20 3.5 -48
+  position: 20 3.5 -49
   rotation: 0 -180 0
   velocity: 0 0 0
   angleVelocity: 0 0 0
@@ -12,7 +12,7 @@ camera: maincam
 
 
 camera: glider-cam
-  position: 0 2 7
+  position: -1 2 3
   rotation: 0 180 0
   velocity: 0 0 0
   angleVelocity: 0 0 0
@@ -22,7 +22,7 @@ camera: glider-cam
   farClip: 40000
 
 
-entities: 3
+entities: 5
 
 
 
@@ -34,13 +34,33 @@ entity: glider-rig
   velocity: 0 0 0
   angleVelocity: 0 0 0
 
-entity: glider-model
-  model: glider
-  position: 0 0 0
-  rotation: 0 90 0
-  scale: 1 1 1
-  velocity: 0 0 0
-  angleVelocity: 0 0 0
+    entity: glider-model
+      model: glider
+      position: 0 0 0
+      rotation: 0 90 0
+      scale: 1 1 1
+      velocity: 0 0 0
+      angleVelocity: 0 0 0
+
+
+    entity: glider-propeller-rig
+      model: null
+      position: 0 .7 .4
+      rotation: 0 90 0
+      scale: 1 1 1
+      velocity: 0 0 0
+      angleVelocity: 2160 0 0
+
+
+          entity: glider-propeller
+            model: propeller
+            position: 0 0 0
+            rotation: 0 0 0
+            scale: 1 1 1
+            velocity: 0 0 0
+            angleVelocity: 0 0 0
+
+
 
 entity: terrain
   model: terrain
@@ -62,14 +82,19 @@ dirlight: distantSunLight
   intensities: 0.15 0.15 0.1
 
 
-relations: 3
+relations: 5
 
   glider-model: 0
   glider-cam: 0
+  glider-propeller: 0
 
-  glider-rig: 2
+  glider-propeller-rig: 1
+    glider-propeller
+
+  glider-rig: 3
     glider-model
     glider-cam
+    glider-propeller-rig
 
 
   

@@ -213,7 +213,7 @@ void updateGlider(float dt)
     //
     // Update current speed
     //
-    static float currentSpeed = 1.0;
+    static float currentSpeed = 0.0;
 
     if (Input::m_keysPressed[Key::Comma]) {
         currentSpeed -= 1.0 * dt;
