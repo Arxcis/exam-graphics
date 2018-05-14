@@ -37,7 +37,7 @@ entity: glider-rig
 entity: glider-model
   model: glider
   position: 0 0 0
-  rotation: -90 0 90
+  rotation: 0 0 90
   scale: 1 1 1
   velocity: 0 0 0
   angleVelocity: 0 0 0
