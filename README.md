@@ -13,6 +13,10 @@
 
 ## Monday 2018-05-14
 
+06:58 - Clouds + moving water + water geometry + terrain zones + wobbling
+
+![cool](https://media.giphy.com/media/A7WjobeQrbMLVkHlfU/giphy.gif)
+
 
 06:26 - Moving clouds
 
