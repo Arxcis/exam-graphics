@@ -14,12 +14,16 @@
 ## Monday 2018-05-14
 
 
+06:26 - Moving clouds
+
+![moving-clouds](https://media.giphy.com/media/9S5mBWjvrTz1AxHRpx/giphy.gif)
+
 03:45 - Spinning propeller 
 
 ![propeller](https://media.giphy.com/media/u45hRBtVbehl87AOro/giphy.gif)
 
 
-02:20 - Water reflections
+02:20 - Wobbling water specularity
 
 <a href="https://ibb.co/m1ZHdy"><img src="https://preview.ibb.co/jUziJy/Screen_Shot_2018_05_14_at_02_17_17.png" alt="Screen_Shot_2018_05_14_at_02_17_17" border="0"></a>
 

@@ -53,7 +53,7 @@ void Renderer::draw(const Model& model, glm::mat4 modelMatrix, float t)
 
         GLCall(glUniformMatrix4fv(shader.getUniformLocation("m2w"), 1, GL_FALSE, glm::value_ptr(modelMatrix)));
 
-        if (shader.m_tag == "water")
+        if (shader.m_tag == "water" || shader.m_tag == "cloud")
         {
             GLCall(glDepthMask(GL_FALSE));
             GLCall(glEnable(GL_BLEND));
@@ -62,7 +62,7 @@ void Renderer::draw(const Model& model, glm::mat4 modelMatrix, float t)
 
         GLCall(glDrawElements(GL_TRIANGLES, mesh.m_ebo.count(), GL_UNSIGNED_INT, nullptr));
 
-        if (shader.m_tag == "water")
+        if (shader.m_tag == "water" || shader.m_tag == "cloud")
         {
             GLCall(glDepthMask(GL_TRUE));
             GLCall(glDisable(GL_BLEND));

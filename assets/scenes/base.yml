@@ -1,7 +1,7 @@
 cameras: 2
 
 camera: maincam
-  position: 20 3.5 -49
+  position: 20 19 -49
   rotation: 0 -180 0
   velocity: 0 0 0
   angleVelocity: 0 0 0
@@ -22,7 +22,7 @@ camera: glider-cam
   farClip: 40000
 
 
-entities: 5
+entities: 6
 
 
 
@@ -67,6 +67,15 @@ entity: terrain
   position: 0 0 0
   rotation: 0 0 0
   scale: 250 15 500
+  velocity: 0 0 0
+  angleVelocity: 0 0 0
+
+
+entity: cloud
+  model: cloud
+  position: -125 40 -250
+  rotation: 0 0 0
+  scale: 500 15 1000
   velocity: 0 0 0
   angleVelocity: 0 0 0
 

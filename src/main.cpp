@@ -316,7 +316,21 @@ void updateGlider(float dt)
     // @end hack
     //
 
+    auto mainCamera = Scene::getActiveCamera();
+    if (!mainCamera) {
+        LOG_DEBUG("main-camera not found in scene");
+        return;
+    }
 
+    ImGui::Text("\nActive camera:");
+
+    GUI::writeVector("rotation", mainCamera->getRotation());
+    GUI::writeVector("position", mainCamera->getPosition());
+
+
+
+
+    ImGui::Text("\nGlider:");
     GUI::writeSpeed(currentSpeed);
     GUI::writeVector("velocity", velocity);
     GUI::writeVector("position", glider-> getPosition());
