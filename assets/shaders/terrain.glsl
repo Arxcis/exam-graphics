@@ -101,7 +101,7 @@ vec3 OK_DirectionalLight(in vec3 lightDirection, in vec3 intensities)
     lightDirection = normalize(lightDirection);
 
     //Ambience
-    float ambientStrength = 2;
+    float ambientStrength = 20;
     vec3 ambient = ambientStrength * intensities;
 
     //Diffuse
