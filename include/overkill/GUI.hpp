@@ -95,8 +95,8 @@ namespace GUI
     }
 
     void writeSpeed(float value) {
-        ImGui::Text ("Speed: %f m/s", value);
-        ImGui::Text ("       %f km/h", value/1000*3600);
+        ImGui::Text("Speed: %f m/s", value);
+        ImGui::Text("       %f km/h", value/1000*3600);
     }
 
     void writeVector(std::string tag, glm::vec3 direction) 

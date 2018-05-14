@@ -9,7 +9,6 @@ import sys
 import random
 import math
 
-import numpy as np
 
 
 from PIL import Image
@@ -328,7 +327,7 @@ import time
 if __name__ == "__main__":
 
 
-    in_heightmap_path = "resources/ExamResources/heightmap/height100.png"
+    in_heightmap_path = "resources/ExamResources/heightmap/height50.png"
     in_assets_path = "assets"
 
     try:

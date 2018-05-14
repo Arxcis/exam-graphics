@@ -28,9 +28,6 @@ auto Init::GLFW(
         exit(-1); // LOG_ERROR(Init::logtag, "Failed to open GLFW window");
     }
 
-#ifndef __APPLE__
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-#endif
 
     glfwSwapInterval(1);
     //q  glfwSetKeyCallback(window, key_callback);

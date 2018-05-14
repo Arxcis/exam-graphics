@@ -1,4 +1,16 @@
-cameras: 2
+cameras: 3
+
+
+camera: glider-cam
+  position: -1.33 3 10
+  rotation: 6.38 176 0
+  velocity: 0 0 0
+  angleVelocity: 0 0 0
+  mode: freelook
+  fov: 90
+  nearClip: 0.1
+  farClip: 40000
+
 
 camera: maincam
   position: 76 2 -270
@@ -11,15 +23,16 @@ camera: maincam
   farClip: 40000
 
 
-camera: glider-cam
-  position: -1 2 3
-  rotation: 0 180 0
+camera: highcam
+  position: 76 200 -270
+  rotation: -66 -81 0
   velocity: 0 0 0
   angleVelocity: 0 0 0
   mode: freelook
   fov: 90
   nearClip: 0.1
   farClip: 40000
+
 
 
 

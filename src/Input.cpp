@@ -314,10 +314,8 @@ std::vector<bool> Input::m_keysPressed;
 
         ////Camera rotation:
         
-#ifdef __APPLE__
         if (m_leftButtonDown) //Click and drag to rotate.
         {
-#endif
             EntityCamera* camera = (EntityCamera*) Scene::getActiveCamera();
             if (camera != nullptr)
             {
@@ -328,9 +326,7 @@ std::vector<bool> Input::m_keysPressed;
             {
                 LOG_WARN("Main camera not set. The scene most likely loaded incorrectly.")
             }
-#ifdef __APPLE__
         }
-#endif
 
 
         m_cursorX = x;  // Save current cursor pos.

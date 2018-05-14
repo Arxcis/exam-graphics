@@ -16,7 +16,7 @@ NearClip: 0.1
 FarClip: 100.0
 CameraOffset: -70
 
-PythonPath: python3
+PythonPath: python
 
 TexturesFolder: assets/textures
 ShadersFolder: assets/shaders

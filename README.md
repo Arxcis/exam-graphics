@@ -75,26 +75,70 @@ Using Pillow for Python to load and process the heightmap
 * http://pillow.readthedocs.io/en/latest/handbook/tutorial.html#using-the-image-class
 
 
+# Getting started
 
-## Installation guide
+## Compile assets
+
+1. Generate terrain model file
+```
+$ python tools/make-terrain.py
+
+Heightmap pixels:  2024064
+
+Generating terrain vertices..
+Finished in time:  10.663175582885742 s
+
+Generating terrain normals..
+Finished in time:  11.63159990310669 s
+
+Generating terrain triangles..
+Finished in time:  10.031072616577148 s
+
+Generating water vertices..
+Finished in time:  2.8647336959838867 s
+
+Generating water triangles..
+Finished in time:  0.9388964176177979 s
+
+Writing everything to file..
+Finished in time:  29.482126474380493 s
 
 ```
+
+
+## Compile engine
+
+```
+# Download project
 $git clone <project-repo-url>
 $cd <project-folder>
 
-$python3 tools/make-terrain.py
+# Install python dependencies
+$pip3 install -r requirements.txt
 
+# CMake + make
 $mkdir build
 $cd build
 $cmake .. -DCMAKE_BUILD_TYPE=Release
 $make
 ```
 
+## Setup up config.yml
+
+Make sure that the correct python path is set up in config.yml
+```yml
+PythonPath: python3                         # Use alias
+PythonPath: C:\tools\Python36\python.exe    # On Windows it's a good idea to use full path
+```
+
+
 ## Run program
+
 ```
 $ ./cube
 $ ./cube <path-to-scene-file>
 ```
+
 
 
 ## Key bindings
@@ -175,3 +219,4 @@ $ ./cube <path-to-scene-file>
 //////////////////////////////////////////////////////////////////////////////////////
 
 ```
+

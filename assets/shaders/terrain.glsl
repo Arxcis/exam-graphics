@@ -94,6 +94,10 @@ layout(std140) uniform OK_Times {
 };
 
 
+uniform float ambientScale = 10;
+uniform float diffuseScale = 0.02;
+uniform float specularScale = 5.0;
+
 // @doc https://learnopengl.com/Lighting/Basic-Lighting - 2018-05-12
 vec3 OK_DirectionalLight(in vec3 lightDirection, in vec3 intensities) 
 {
@@ -101,18 +105,14 @@ vec3 OK_DirectionalLight(in vec3 lightDirection, in vec3 intensities)
     lightDirection = normalize(lightDirection);
 
     //Ambience
-    float ambientStrength = 10;
-    vec3 ambient = ambientStrength * intensities;
+    vec3 ambient = ambientScale * intensities;
 
     //Diffuse
-    float diffuseScaler = 0.02;
     float diffusion     = max(dot(frag_Normal, lightDirection), 0.0);
-    vec3  diffuse       = diffuseScaler * diffusion * intensities;
+    vec3  diffuse       = diffuseScale * diffusion * intensities;
 
 
     //Specularity
-    float specularScale  = 5.0;
-
     vec3 viewDirection    = normalize(view_position.xyz - frag_Position.xyz);
     vec3 reflectDirection = reflect(-lightDirection, normalize(frag_Normal));
 

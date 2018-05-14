@@ -2,4 +2,7 @@ maps: 2
 map_diffuse: heightmap_rgb
 map_seasons: seasons_ramp
 
-values: 0
+values: 3
+ambientScale: 4
+diffuseScale: 0.04
+specularScale: 1.0

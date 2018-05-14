@@ -7,7 +7,7 @@ from subprocess import call
 # INPUT
 in_scale      = 1
 in_assets_path = "assets"
-in_model = "glider"
+in_model = "rungholt"
 in_shader = "glider"
 
 
