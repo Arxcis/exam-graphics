@@ -234,7 +234,7 @@ std::vector<bool> Input::m_keysPressed;
 
         else if (keyCode == GLFW_KEY_C) {
 
-            LOG_INFO("TOGGLING");
+            LOG_INFO("TOGGLING CONTOUR LINES");
 
             ModelSystem::toggleShader("terrain",
                                       "terrain",
@@ -243,9 +243,9 @@ std::vector<bool> Input::m_keysPressed;
 
         }
 
-        else if (keyCode == GLFW_KEY_X) {
+        else if (keyCode == GLFW_KEY_G) {
 
-            LOG_INFO("TOGGLING");
+            LOG_INFO("TOGGLING GREYSCALE MAP");
 
             ModelSystem::toggleShader("terrain",
                                       "terrain",

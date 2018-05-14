@@ -79,7 +79,7 @@ Using Pillow for Python to load and process the heightmap
 ## Installation guide
 
 ```
-$git clone <project>
+$git clone <project-repo-url>
 $cd <project-folder>
 
 $python3 tools/make-terrain.py
@@ -99,3 +99,79 @@ $ ./cube <path-to-scene-file>
 
 ## Key bindings
 
+```
+//
+//////////////////////////// KEY BINDINGS //////////////////////////
+//
+// 
+// --------------------
+//    General:
+// --------------------
+//  ESC: quit app
+//
+//
+// -------------------
+//   Time and weather:
+//  -------------------
+//   1: Pick spring
+//   2: Pick Summer
+//   3: Pick autumn
+//   4: Pick Winter
+//   5: Pause season change
+//
+//   6: Pick morning
+//   7: Pick noon
+//   8: Pick afternoon
+//   9: Pick night
+//   0: Pause daycycle
+//
+//   UP:   Increase water level
+//   DOWN: Decrease water level
+//
+//
+// ------------------------
+//   Camera:
+// ------------------------
+//   i: forward
+//   k: backward
+//   l: right
+//   j: left
+//   y: up
+//   h: down
+//   space: toggl camera mode [FREELOOK | ORBITAL]
+//   tab: cycle through cameras
+//   mouse: look around, change orientation
+// 
+// -----------------------
+//    Glider:
+// -----------------------  
+//    W: pitch down
+//    S: pitch up
+//    A: yaw left
+//    D: yaw right 
+//    F: Jump to either Lillehammer, Gjøvik or Hamar
+//    R: Reset glider position
+//   
+//    comma:  speed down
+//    period: speed up
+//
+//
+// -------------------------------
+//    Visualizations:
+// -------------------------------
+//   g: toggle grey scale shader
+//   c: toggle countour lines shader
+//
+//
+// --------------------------------------
+//    Reload asset files:
+// --------------------------------------
+//   shift + 1 TO RELOAD Shaders
+//   shift + 2 TO RELOAD Materials
+//   shift + 3 TO RELOAD Models
+//   shift + 4 TO RELOAD Scene + Config file
+//
+//
+//////////////////////////////////////////////////////////////////////////////////////
+
+```
