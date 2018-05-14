@@ -243,7 +243,16 @@ std::vector<bool> Input::m_keysPressed;
 
         }
 
+        else if (keyCode == GLFW_KEY_X) {
 
+            LOG_INFO("TOGGLING");
+
+            ModelSystem::toggleShader("terrain",
+                                      "terrain",
+                                      "terrain",
+                                      "heightmap");
+
+        }
         //
         // Press down active keys
         //
