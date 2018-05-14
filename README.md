@@ -50,3 +50,27 @@ Using Pillow for Python to load and process the heightmap
 * http://pillow.readthedocs.io/en/latest/handbook/tutorial.html#using-the-image-class
 
 
+
+## Installation guide
+
+```
+$git clone <project>
+$cd <project-folder>
+
+$python3 tools/make-terrain.py
+
+$mkdir build
+$cd build
+$cmake .. -DCMAKE_BUILD_TYPE=Release
+$make
+```
+
+## Run program
+```
+$ ./cube
+$ ./cube <path-to-scene-file>
+```
+
+
+## Key bindings
+
