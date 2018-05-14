@@ -1,4 +1,8 @@
 
+#### 2018-05-14
+
+* Book of shaders - https://thebookofshaders.com/11/
+
 #### 2018-04-26
 
 * UniformBuffers and Uniform Blocks - http://www.informit.com/articles/article.aspx?p=2731929&seqNum=4
