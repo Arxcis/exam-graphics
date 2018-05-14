@@ -83,7 +83,7 @@ int main(int argc, char** args)
 
     if (argc == 1)
     {
-        Scene::load("assets/scenes/_default.yml");
+        Scene::load("assets/scenes/base.yml");
     }
     else if (argc == 2)
     {

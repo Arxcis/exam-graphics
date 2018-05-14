@@ -100,11 +100,11 @@ vec3 OK_DirectionalLight(in vec3 lightDirection, in vec3 intensities)
     lightDirection = normalize(lightDirection);
 
     //Ambience
-    float ambientStrength = 2;
+    float ambientStrength = 1;
     vec3 ambient = ambientStrength * intensities;
 
     //Diffuse
-    float diffuseScaler = 0.05;
+    float diffuseScaler = 0.015;
     float diffusion     = max(dot(frag_Normal, lightDirection), 0.0);
     vec3  diffuse       = diffuseScaler * diffusion * intensities;
 
