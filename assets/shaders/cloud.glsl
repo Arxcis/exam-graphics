@@ -76,6 +76,9 @@ float noise (in vec2 st) {
 
 
 void main() {
-    float n = noise(frag_Pos.xz * 0.05 + vec2(time*0.2) + frag_Pos.y);
+
+    float zoomLevel = 0.02;
+
+    float n = noise(frag_Pos.xz * zoomLevel + vec2(time*frag_Pos.y*frag_Pos.y*0.00005) + frag_Pos.y);
     out_color = vec4(1,1,1,n-0.6);
 }

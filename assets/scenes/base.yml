@@ -22,7 +22,7 @@ camera: glider-cam
   farClip: 40000
 
 
-entities: 6
+entities: 9
 
 
 
@@ -71,13 +71,41 @@ entity: terrain
   angleVelocity: 0 0 0
 
 
-entity: cloud
+entity: cloud1
   model: cloud
-  position: -125 40 -250
+  position: -250 40 -500
   rotation: 0 0 0
-  scale: 500 15 1000
+  scale: 1000 15 2000
   velocity: 0 0 0
   angleVelocity: 0 0 0
+
+
+entity: cloud2
+  model: cloud
+  position: -250 50 -500
+  rotation: 0 0 0
+  scale: 1000 15 2000
+  velocity: 0 0 0
+  angleVelocity: 0 0 0
+
+
+entity: cloud3
+  model: cloud
+  position: -250 60 -500
+  rotation: 0 0 0
+  scale: 1000 15 2000
+  velocity: 0 0 0
+  angleVelocity: 0 0 0
+
+entity: cloud4
+  model: cloud
+  position: -250 70 -500
+  rotation: 0 0 0
+  scale: 1000 15 2000
+  velocity: 0 0 0
+  angleVelocity: 0 0 0
+
+
 
 
 
