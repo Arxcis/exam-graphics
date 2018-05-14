@@ -13,6 +13,11 @@
 
 ## Monday 2018-05-14
 
+#### 10:27 - Rungholt day cycle
+
+![sweeter](https://media.giphy.com/media/57WbJAYEyn3QPwmlgq/giphy.gif)
+
+
 #### 10:20 - RUngholt gif
 
 ![sweet](https://media.giphy.com/media/2ifRiYjkBEORZzTrjX/giphy.gif)
