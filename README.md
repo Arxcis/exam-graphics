@@ -16,9 +16,6 @@
 
 03:45 - Spinning propeller 
 
-<a href="https://ibb.co/hWverJ"><img src="https://preview.ibb.co/n9gKrJ/Screen_Shot_2018_05_14_at_03_43_30.png" alt="Screen_Shot_2018_05_14_at_03_43_30" border="0"></a>
-
-
 ![propeller](https://media.giphy.com/media/u45hRBtVbehl87AOro/giphy.gif)
 
 
