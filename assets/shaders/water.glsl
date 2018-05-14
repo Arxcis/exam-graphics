@@ -68,9 +68,9 @@ void main() {
     //
     frag_Normal = normalize(
         vec3(
-            sin(elapsed_time + vert_color.r)*0.1+1.0, 
+            sin(elapsed_time * vert_color.b * 1.2)*0.1+1.0, 
             0, 
-            cos(elapsed_time + vert_color.g)*0.1+1.0
+            cos(elapsed_time * vert_color.g * 1.2)*0.1+1.0
         )
     );
 
@@ -148,13 +148,13 @@ vec3 OK_DirectionalLight(in vec3 lightDirection, in vec3 intensities)
     vec3 ambient = ambientStrength * intensities;
 
     //Diffuse
-    float diffuseScaler = 0.05; 
+    float diffuseScaler = 0.00001; 
     float diffusion     = max(dot(frag_Normal, lightDirection), 0.0);
     vec3  diffuse       = diffuseScaler * diffusion * intensities;
 
 
     //Specularity
-    float specularScale  = 5;
+    float specularScale  = 6;
 
     vec3 viewDirection    = normalize(view_position.xyz - frag_Position.xyz);
     vec3 reflectDirection = reflect(-lightDirection, normalize(frag_Normal));
@@ -175,6 +175,6 @@ void main() {
     vec3 sunlight = OK_DirectionalLight(sunDirectionByTime, sun.intensities.rgb);  
 
     float alpha = .30;
-    vec3 color = vec3(0,0,.5);
+    vec3 color = vec3(0,0,.24);
     out_color = vec4(sunlight+ color, alpha);
 }
