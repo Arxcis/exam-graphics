@@ -7,7 +7,7 @@
 * email: jonasjso@stud.ntnu.no
 * start: 12:00, 2018-05-11
 * end:   12:00, 208-05-14
-
+* Instructions: [instructions](docs/instructions.pdf)
 
 # Devlog
 
