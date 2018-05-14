@@ -37,6 +37,9 @@
 #include <overkill/Watcher.hpp>
 
 
+#define PI 3.141592
+
+
 using namespace overkill;
 
 
@@ -213,7 +216,7 @@ void updateGlider(float dt)
     //
     // Update current speed
     //
-    static float currentSpeed = 0.0;
+    static float currentSpeed = 1.0;
 
     if (Input::m_keysPressed[Key::Comma]) {
         currentSpeed -= 1.0 * dt;
@@ -276,6 +279,21 @@ void updateGlider(float dt)
     
 
 
+    auto rotation = glm::radians(glider-> getRotation());
+
+    auto gliderpropeller = Scene::getEntityByTag("glider-propeller-rig");
+    if (!gliderpropeller) {
+        LOG_DEBUG("DID NOT FIND gliderpropeller");
+        return;
+    }
+
+
+    auto propellerSineMixin = sin(rotation.x - (25/180*PI));
+    gliderpropeller->setAngularVelocity(glm::vec3(-90 + (propellerSineMixin * 4000),  0, 0));
+
+
+
+
 
     //
     // @begin hack
@@ -287,7 +305,6 @@ void updateGlider(float dt)
     // Because actually we just want the glider to go in the direction it is facing.
     // It should do this by default if the scene graph is set up properly.
     // We should not have to explicitly set the velocity.
-    auto rotation = glm::radians(glider-> getRotation());
     auto velocity = glm::vec3( glm::sin(rotation.y * glm::cos(rotation.x)),  // forstått
                                glm::sin(-rotation.x),                       // forstått
                                glm::cos(rotation.y) * glm::cos(rotation.x)); // forstår
