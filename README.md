@@ -7,7 +7,7 @@
 * email: jonasjso@stud.ntnu.no
 * start: 12:00, 2018-05-11
 * end:   12:00, 208-05-14
-* Instructions: [instructions](docs/instructions.pdf)
+* Instructions: [instructions](http://prod3.imt.hig.no/Arxcis/exam-graphcis/blob/c9a96afbc47a8b37abfcb6b1f56c19dc483706ea/docs/Instructions.pdf)
 
 # Devlog
 
