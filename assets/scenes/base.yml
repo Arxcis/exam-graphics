@@ -70,6 +70,15 @@ entity: terrain
   velocity: 0 0 0
   angleVelocity: 0 0 0
 
+entity: city
+  model: rungholt
+  position: 0 10 0
+  rotation: 0 0 0
+  scale: 1 1 1
+  velocity: 0 0 0
+  angleVelocity: 0 10 0
+
+
 
 entity: cloud1
   model: cloud

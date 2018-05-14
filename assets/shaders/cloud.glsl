@@ -53,6 +53,8 @@ float random (vec2 st) {
 }
 
 
+// @noise for clouds inspired by - https://thebookofshaders.com/11/
+
 // 2D Noise based on Morgan McGuire @morgan3d
 // https://www.shadertoy.com/view/4dS3Wd
 float noise (in vec2 st) {

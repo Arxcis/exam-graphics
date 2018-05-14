@@ -104,6 +104,24 @@ namespace GUI
        ImGui::Text("%s:\n %f\n %f\n %f", tag.data(), direction.x, direction.y, direction.z);
     }
 
+
+
+    float sliderDaytime(const std::string label, float min, float max, float currentValue) 
+    {
+        currentValue = currentValue / 60 / 60;
+
+        ImGui::SliderFloat(label.data(), &(currentValue), min, max);
+        return currentValue * 60 * 60;
+    }
+
+    float sliderYeartime(const std::string label, float min, float max, float currentValue) 
+    {
+
+        ImGui::SliderFloat(label.data(), &currentValue, min, max);
+        return currentValue;
+    }
+
+
     void end()
     {
         ImGui::Render();

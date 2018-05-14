@@ -153,7 +153,9 @@ int main(int argc, char** args)
  
         GUI::updateTimeOfDay(Scene::times.timeofday_seconds);
         GUI::updateTimeOfYear(Scene::times.timeofyear_days);
-        GUI::updateTimeOfTide(Scene::times.timeoftide_percent);
+
+        Scene::times.timeofday_seconds = GUI::sliderDaytime("Hours of day", 0, 24, Scene::times.timeofday_seconds);
+        Scene::times.timeofyear_days   = GUI::sliderYeartime("Days of year", 1, 365, Scene::times.timeofyear_days);
         
         updateGlider(dt);
 
