@@ -13,6 +13,10 @@
 
 ## Monday 2018-05-14
 
+#### 10:20 - RUngholt gif
+
+![sweet](https://media.giphy.com/media/2ifRiYjkBEORZzTrjX/giphy.gif)
+
 
 #### 10:10 - Rungholt city model photoshoot
 
