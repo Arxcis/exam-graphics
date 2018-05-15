@@ -147,7 +147,7 @@ void main()
     float u = frag_Height;
     float v = (timeofyear_days) /  NumberOfDaysInAYear + texture_correction;
     vec3 season_color = texture(map_seasons, vec2(u, v)).rgb;
-    season_color *= texture(map_diffuse, frag_UV).rgb + vec3(.2,.2,.2);
+    season_color += ((texture(map_diffuse, frag_UV).rgb)*2) - vec3(0.5,0.5,0.5) ;
 
     out_color = vec4(sunlight * season_color, 1);    
 

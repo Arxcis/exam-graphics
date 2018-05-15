@@ -228,6 +228,7 @@ std::vector<bool> Input::m_keysPressed;
         // PRESS TAB to cycle through camera
         else if(keyCode == GLFW_KEY_TAB) {
             Scene::cycleCameras();
+            
             LOG_INFO("Cycled cameras.");
         }
 

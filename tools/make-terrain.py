@@ -270,11 +270,11 @@ t: 2 3 1
 t: 6 5 4
 .......
 """
-def write_mesh(outfile, triangles, name):
+def write_mesh(outfile, triangles, name, material):
 
 
     outfile.write("mesh: {}\n".format(name))
-    outfile.write("material: {}\n".format(name))
+    outfile.write("material: {}\n".format(material))
     outfile.write("shader: {}\n".format(name))
     outfile.write("triangles: {}\n".format(len(triangles)))
     
@@ -457,8 +457,8 @@ if __name__ == "__main__":
 
         write_vertices(terrainfile, vertices)
         terrainfile.write("meshes: 2\n")
-        write_mesh(terrainfile, base_triangles, "terrain")
-        write_mesh(terrainfile, water_triangle, "water")
+        write_mesh(terrainfile, base_triangles, "terrain", "terrain")
+        write_mesh(terrainfile, water_triangle, "water", "terrain")
 
 
 

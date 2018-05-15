@@ -42,13 +42,13 @@ out vec4 out_color;
 
 uniform sampler2D map_diffuse;
 
-uniform float ambientStrength;
-uniform float diffuseStrength;
+uniform float ambientScale = 0;
+uniform float diffuseScale = 1;
 
 void main() 
 {
-    vec3 ambient = ambientStrength * vec3(1); 
-    vec3 diffuse = diffuseStrength * texture(map_diffuse, frag_UV).rgb;
+    vec3 ambient = ambientScale * vec3(1); 
+    vec3 diffuse = diffuseScale * texture(map_diffuse, frag_UV).rgb;
 
     vec3 light = ambient + diffuse;
     out_color = vec4(light, 1);

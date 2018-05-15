@@ -1,8 +1,8 @@
 GLVersionMajor: 4
 GLVersionMinor: 1
 
-WinWidth: 1600
-WinHeight: 1200
+WinWidth: 1000
+WinHeight: 800
 WinName: Assignment 2 - Cube
 ClearColor: 0.4   0.4   0.5   1.0
 
@@ -16,7 +16,7 @@ NearClip: 0.1
 FarClip: 100.0
 CameraOffset: -70
 
-PythonPath: python
+PythonPath: python3
 
 TexturesFolder: assets/textures
 ShadersFolder: assets/shaders

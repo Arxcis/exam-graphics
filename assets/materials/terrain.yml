@@ -4,5 +4,5 @@ map_seasons: seasons_ramp
 
 values: 3
 ambientScale: 4
-diffuseScale: 0.04
+diffuseScale: 0.02
 specularScale: 1.0

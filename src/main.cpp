@@ -156,7 +156,7 @@ int main(int argc, char** args)
 
         Scene::times.timeofday_seconds = GUI::sliderDaytime("Hours of day", 0, 24, Scene::times.timeofday_seconds);
         Scene::times.timeofyear_days   = GUI::sliderYeartime("Days of year", 1, 365, Scene::times.timeofyear_days);
-        
+
         updateGlider(dt);
 
         GUI::end();
@@ -191,7 +191,7 @@ int main(int argc, char** args)
 
 void updateGlider(float dt) 
 {
-
+    auto gliderVistaCam = Scene::getEntityByTag("cam-glider-vista");
     auto glider = Scene::getEntityByTag("glider-rig");
     if (!glider)
         return;
@@ -218,7 +218,7 @@ void updateGlider(float dt)
     //
     // Update current speed
     //
-    static float currentSpeed = 1.0;
+    static float currentSpeed = 0.0;
 
     if (Input::m_keysPressed[Key::Comma]) {
         currentSpeed -= 1.0 * dt;
@@ -233,20 +233,26 @@ void updateGlider(float dt)
 
     static bool F_keyIsDown = false;
     static bool R_keyIsDown = false;
-    static int currentStartPoisitionIndex = 0;
+    static int currentStartLocationIndex = 2;
 
-    const std::vector<std::string> possibleStartPositionNames = 
+
+    struct PossibleStartLocation 
     {
-        "Lillehammer",
-        "Gjøvik",
-        "Hamar",
+        std::string name;
+        glm::vec3   gliderPosition;
+        glm::vec3   cameraVistaPosition;
+        glm::vec3   cameraVistaRotation;
+        glm::vec3   gliderRotation = glm::vec3(0);
     };
-    const std::vector<glm::vec3> possibleStartPositions = 
+
+    const std::vector<PossibleStartLocation> possibleStarts = 
     {
-        glm::vec3(18, 3, 46),
-        glm::vec3(65, 3, 263),
-        glm::vec3(173, 3, 255)
+        PossibleStartLocation{"Lillehammer", glm::vec3(19.86, 2.91, 53), glm::vec3( -9.2, 6.2, 12.4), glm::vec3(0.76, 190, 0)},
+        PossibleStartLocation{"Helgøya",     glm::vec3(153.18, 2.26, 299.0), glm::vec3(-11, 11.95, 24), glm::vec3(5.76, 231.32, 0)},
+        PossibleStartLocation{"1500 century Gjøvik", glm::vec3(81.9, 1.49, 272.6), glm::vec3(-15.0, 14.73, 23.0), glm::vec3(2.77, 242.61, 0), glm::vec3(2.0, 155, 0) },
     };
+
+
 
     //
     // Cycle between glider start positions
@@ -254,10 +260,17 @@ void updateGlider(float dt)
     if (Input::m_keysPressed[Key::F] && !F_keyIsDown) {
         F_keyIsDown = true;
 
-        currentStartPoisitionIndex = ++currentStartPoisitionIndex % possibleStartPositions.size();
-        LOG_DEBUG("current start position index: %d", currentStartPoisitionIndex);
+        currentStartLocationIndex = ++currentStartLocationIndex % possibleStarts.size();
+        LOG_DEBUG("current start position index: %d", currentStartLocationIndex);
 
-        glider->setPosition( possibleStartPositions[currentStartPoisitionIndex] );
+        glider->setPosition( possibleStarts[currentStartLocationIndex].gliderPosition );
+        glider->setRotation( possibleStarts[currentStartLocationIndex].gliderRotation );
+        gliderVistaCam->setPosition( possibleStarts[currentStartLocationIndex].cameraVistaPosition );
+        gliderVistaCam->setRotation( possibleStarts[currentStartLocationIndex].cameraVistaRotation );
+
+        Scene::m_activeCamera = (EntityCamera*)gliderVistaCam;
+
+        currentSpeed = 0.0;
     }
     else if (!Input::m_keysPressed[Key::F] && F_keyIsDown) {
         F_keyIsDown = false;
@@ -270,9 +283,10 @@ void updateGlider(float dt)
     if (Input::m_keysPressed[Key::R] && !R_keyIsDown) {
         R_keyIsDown = true;
 
-        LOG_DEBUG("current start position index: %d", currentStartPoisitionIndex);
+        LOG_DEBUG("current start position index: %d", currentStartLocationIndex);
 
-        glider->setPosition( possibleStartPositions[currentStartPoisitionIndex] );
+        glider->setPosition( possibleStarts[currentStartLocationIndex].gliderPosition );
+        currentSpeed = 0.0;
     }
     else if (!Input::m_keysPressed[Key::R] && R_keyIsDown) {
         R_keyIsDown = false;
@@ -283,6 +297,10 @@ void updateGlider(float dt)
 
     auto rotation = glm::radians(glider-> getRotation());
 
+
+    // 
+    // Rotate the glider propeller
+    //
     auto gliderpropeller = Scene::getEntityByTag("glider-propeller-rig");
     if (!gliderpropeller) {
         LOG_DEBUG("DID NOT FIND gliderpropeller");
@@ -318,16 +336,16 @@ void updateGlider(float dt)
     // @end hack
     //
 
-    auto mainCamera = Scene::getActiveCamera();
-    if (!mainCamera) {
-        LOG_DEBUG("main-camera not found in scene");
+    auto activeCamera = Scene::getActiveCamera();
+    if (!activeCamera) {
+        LOG_WARN("Scene::getActiveCamera() not found in scene");
         return;
     }
 
-    ImGui::Text("\nActive camera:");
+    ImGui::Text("\nActive camera: %s", activeCamera->getTag().data());
 
-    GUI::writeVector("rotation", mainCamera->getRotation());
-    GUI::writeVector("position", mainCamera->getPosition());
+    GUI::writeVector("rotation", activeCamera->getRotation());
+    GUI::writeVector("position", activeCamera->getPosition());
 
 
 
@@ -336,5 +354,6 @@ void updateGlider(float dt)
     GUI::writeSpeed(currentSpeed);
     GUI::writeVector("velocity", velocity);
     GUI::writeVector("position", glider-> getPosition());
-    ImGui::Text("Started from %s!", possibleStartPositionNames[currentStartPoisitionIndex].data());
+    GUI::writeVector("rotation", glider-> getRotation());
+    ImGui::Text("Teleported to:\n%s", possibleStarts[currentStartLocationIndex].name.data());
 }

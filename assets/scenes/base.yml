@@ -1,8 +1,18 @@
-cameras: 3
+cameras: 5
 
 
-camera: glider-cam
-  position: -1.33 3 10
+camera: cam-glider-vista
+  position: -15.0 14.73 23.0
+  rotation: 2.77 242.61 0
+  velocity: 0 0 0
+  angleVelocity: 0 0 0
+  mode: freelook
+  fov: 90
+  nearClip: 0.1
+  farClip: 40000
+
+camera: cam-glider-tail
+  position: 0 3 10
   rotation: 6.38 176 0
   velocity: 0 0 0
   angleVelocity: 0 0 0
@@ -24,6 +34,17 @@ camera: maincam
 
 
 camera: highcam
+  position: 231 27 -497
+  rotation: -38 37 0
+  velocity: 0 0 0
+  angleVelocity: 0 0 0
+  mode: freelook
+  fov: 90
+  nearClip: 0.1
+  farClip: 40000
+
+
+camera: cornercam
   position: 76 200 -270
   rotation: -66 -81 0
   velocity: 0 0 0
@@ -36,13 +57,12 @@ camera: highcam
 
 
 
-
-entities: 9
+entities: 10
 
 entity: glider-rig
   model: null
-  position: 20 3 50
-  rotation: 0 0 0
+  position: 81.9 1.49 272.6
+  rotation: 2 155 0
   scale: .05 .05 .05
   velocity: 0 0 0
   angleVelocity: 0 0 0
@@ -76,13 +96,15 @@ entity: glider-rig
 
 
 
-# entity: city
-#   model: rungholt
-#   position: 78 1.3 270
-#   rotation: 0 -30 0
-#   scale: 0.01 0.01 0.01
-#   velocity: 0 0 0
-#   angleVelocity: 0 0 0
+
+
+entity: city
+  model: rungholt
+  position: 78 1.3 270
+  rotation: 0 -30 0
+  scale: 0.02 0.02 0.02
+  velocity: 0 0 0
+  angleVelocity: 0 0 0
 
 
 entity: terrain
@@ -152,10 +174,12 @@ relations: 5
   glider-propeller-rig: 1
     glider-propeller
 
-  glider-rig: 3
+  glider-rig: 4
+    cam-glider-vista
+    cam-glider-tail
     glider-model
-    glider-cam
     glider-propeller-rig
+
 
 
   

@@ -37,9 +37,9 @@ vec4 MVP(in vec4 position) {
 
 
 #define PI 3.141592
-#define WaveRange 0.025
-#define TideRange 3
-#define Offset .06
+#define WaveScale 0.0005
+#define TideScale .15
+#define TideOffset -0.041
 
 void main() {
 
@@ -50,12 +50,12 @@ void main() {
     //
     float sineMixin = sin(elapsed_time*0.5 * PI)+0.5;
 
-    vec4 waveadjusted_position  = position              + vec4(0,(sineMixin * WaveRange),0,0);
-    vec4 tideadjusted_position  = waveadjusted_position + vec4(0, TideRange * timeoftide_percent/100, 0,0);
+    vec4 waveadjusted_position  = position              + vec4(0,( sineMixin * WaveScale),0,0);
+    vec4 tideadjusted_position  = waveadjusted_position + vec4(0, TideScale * timeoftide_percent/100, 0,0);
    
-    vec4 randomadjusted_positon = tideadjusted_position * vec4(1, vert_color.r/10.0, 1,1);
+    vec4 randomadjusted_positon = tideadjusted_position + vec4(0, (1.0+ 0.25*cos(elapsed_time + vert_color.b*20))  * vert_color.r/120.0, 0, 0);
 
-    vec4 offsetAdjusted_position = randomadjusted_positon + vec4(0, Offset, 0,0);
+    vec4 offsetAdjusted_position = randomadjusted_positon + vec4(0, TideOffset, 0,0);
 
 
     vec4 out_position = MVP(offsetAdjusted_position);
@@ -137,6 +137,11 @@ layout(std140) uniform OK_Matrices{
     vec4 view_position;
 };
 
+
+uniform float ambientScale = 10;
+uniform float diffuseScale = 0.02;
+uniform float specularScale = 5.0;
+
 // @doc https://learnopengl.com/Lighting/Basic-Lighting - 2018-05-12
 vec3 OK_DirectionalLight(in vec3 lightDirection, in vec3 intensities) 
 {
@@ -144,18 +149,14 @@ vec3 OK_DirectionalLight(in vec3 lightDirection, in vec3 intensities)
     lightDirection = normalize(lightDirection);
 
     //Ambience
-    float ambientStrength = 0;
-    vec3 ambient = ambientStrength * intensities;
+    vec3 ambient = ambientScale * intensities;
 
     //Diffuse
-    float diffuseScaler = 0.00001; 
     float diffusion     = max(dot(frag_Normal, lightDirection), 0.0);
-    vec3  diffuse       = diffuseScaler * diffusion * intensities;
+    vec3  diffuse       = diffuseScale * diffusion * intensities;
 
 
     //Specularity
-    float specularScale  = 6;
-
     vec3 viewDirection    = normalize(view_position.xyz - frag_Position.xyz);
     vec3 reflectDirection = reflect(-lightDirection, normalize(frag_Normal));
 

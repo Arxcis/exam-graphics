@@ -44,7 +44,6 @@ private:
     // static EntityCamera* m_camera;
     static std::vector<Entity*> m_entities;     // All the 3D models in the world.
     static std::vector<int> m_rootEntities;     // All the entityIDs that are root noes in world.
-    static EntityCamera* m_activeCamera;          // Pointer to the camera that is currently active.
     static int m_cameraCount;                   // The amount of cameras in the scene.s
     
     static DirectionalLight m_sun;
@@ -78,6 +77,8 @@ public:
     static bool entityExist(const C::Tag tag);
 
 public:
+    static EntityCamera* m_activeCamera;          // Pointer to the camera that is currently active.
+    
     Scene();                                    //load from file in future.
     static void load(std::string sceneFile);                         // Dummy loader.
     static void reload(); 
